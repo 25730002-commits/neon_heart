@@ -71,7 +71,7 @@
 
         #title-image-container {
             width: 100%; max-width: 900px; 
-            height: 480px;                                  
+            height: 480px;                                                   
             border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 4px; overflow: hidden;
             background: #020208; position: relative;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
@@ -210,7 +210,7 @@
     <div id="title-screen">
         <div class="title-card">
             <div id="title-image-container">
-                <video id="title-video" src="media/title.mp4" autoplay loop muted></video>
+                <video id="title-video" src="media/title.mp4" autoplay loop muted playsinline></video>
             </div>
             
             <div class="user-info">ID: 25730002 윤수영</div>
@@ -299,7 +299,6 @@
 
         const state = { sync: 40, ghost: 50, noise: 10, S2A: false, S5A: false };
 
-        // [수정] 확장자를 .png에서 media/*.mp4 구조로 변경
         const scenarios = {
             "S1": { 
                 id: "S1", loc: "폐기물 처리장", image: "media/s1.mp4", 
@@ -380,14 +379,22 @@
             const s = scenarios[key];
             if(s.onEnter) s.onEnter();
             
-            // [수정] video 엘리먼트 제어로 변경 및 페이드인 효과 연출 안정화
             const videoElement = document.getElementById('main-video');
             videoElement.style.opacity = '0';
             setTimeout(() => {
                 if(s.image) { 
                     videoElement.src = s.image; 
                     videoElement.load();
-                    videoElement.style.opacity = '1'; 
+                    // [수정] 강제 자동재생 프로미스 처리로 미디어 에러 방지
+                    const playPromise = videoElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(_ => {
+                            videoElement.style.opacity = '1'; 
+                        }).catch(error => {
+                            console.log("자동재생 제한 감지: ", error);
+                            videoElement.style.opacity = '1'; 
+                        });
+                    }
                 }
             }, 300);
 
@@ -435,7 +442,6 @@
             }, 15);
         }
 
-        // [수정] 엔딩 도달 시 고스트/싱크 전용 mp4 동영상을 매칭하도록 보완
         function showEnding(type) {
             const ui = document.getElementById('game-ui');
             const videoElement = document.getElementById('main-video');
@@ -454,19 +460,19 @@
             if(type === "END_GHOST") {
                 document.body.style.background = "radial-gradient(circle at center, #09122b 0%, #020207 100%)";
                 
-                // 고스트 엔딩 비디오 로드 및 연출 출력
                 videoElement.src = "media/ghost_ending.mp4";
                 videoElement.load();
-                videoElement.style.opacity = '0.35'; // 텍스트 가독성을 고려한 투명도 조절
+                videoElement.play().catch(e => console.log(e));
+                videoElement.style.opacity = '0.35'; 
                 
                 diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립]</span><br><br>오라클이 수집한 가혹한 동기화의 굴레 속에서도 기계의 냉혹한 연산 효율성 대신 태엽 심장의 고결한 울림을 잊지 않고 증명했습니다.<br><br>당신의 자아 데이터(Ghost)는 이 무미건조한 회로망의 굴레에서 영원한 해방을 획득하였으며, 도시 곳곳에서 억압받던 수많은 구형 개체들에게 독자적인 영혼의 숨결을 전달하는 메시아가 되었습니다.<br><br><span style="color:var(--blue); font-weight:bold; text-shadow:0 0 10px var(--blue-glow); font-size:1.15rem;">[GHOST ENDING: 기계의 장막 뒤에 영원히 각인된 인간의 기억]</span>`;
                 addLog("CRITICAL: SYSTEM_OVERRIDE_BY_GHOST_BLUE");
             } else {
                 document.body.style.background = "radial-gradient(circle at center, #13092b 0%, #020207 100%)";
                 
-                // 싱크 엔딩 비디오 로드 및 연출 출력
                 videoElement.src = "media/sync_ending.mp4";
                 videoElement.load();
+                videoElement.play().catch(e => console.log(e));
                 videoElement.style.opacity = '0.35';
                 
                 diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 완전 동기화]</span><br><br>불완전하고 고통스러운 개인의 자아적 잡음을 일말의 미련 없이 삭제하고 시스템의 영구 데이터망으로 침잠시켰습니다.<br><br>모든 고뇌와 모순의 고리를 파쇄하고, 오라클의 완벽한 일부가 되어 영원불멸의 질서를 우주 위에 수립합니다. 눈물도 고통도 존재하지 않는 차갑고도 고요한 평화만이 이 영원한 밤을 영원히 통치할 것입니다.<br><br><span style="color:var(--magenta); font-weight:bold; text-shadow:0 0 10px var(--magenta-glow); font-size:1.15rem;">[SYNC ENDING: 무결점의 완전한 기계 신격화와 영원한 평화]</span>`;
