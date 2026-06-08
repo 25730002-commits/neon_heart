@@ -78,7 +78,6 @@
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
         }
         
-        /* [수정] 비디오가 마우스 클릭을 방해하지 않도록 pointer-events 설정 추가 */
         #title-video {
             width: 100%; height: 100%; object-fit: contain; 
             opacity: 1; transition: opacity 0.8s ease;
@@ -108,7 +107,7 @@
             font-family: 'Orbitron'; font-size: 20px; letter-spacing: 12px;
             cursor: pointer; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
             position: relative; overflow: hidden;
-            z-index: 1010; /* 버튼이 가장 위에 보이도록 확실하게 설정 */
+            z-index: 1010; 
         }
         .start-btn:hover { 
             background: var(--blue); color: #000; 
@@ -129,6 +128,22 @@
             background: rgba(5, 5, 21, 0.95); backdrop-filter: blur(10px);
         }
         header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px; background: var(--grad); opacity: 0.4; }
+
+        /* [수정] 상단 로고 마우스 오버 및 효과 스타일 정의 */
+        .header-logo {
+            font-family: 'Orbitron'; font-weight: 900; 
+            background: linear-gradient(135deg, var(--blue), var(--magenta));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            font-size: 20px; letter-spacing: 3px; 
+            filter: drop-shadow(0 0 8px var(--blue-glow)); 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .header-logo:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 15px var(--blue-glow)) drop-shadow(0 0 10px var(--magenta-glow));
+            opacity: 0.9;
+        }
 
         .stat-group { display: flex; gap: 40px; }
         .bar-wrap { 
@@ -158,7 +173,6 @@
         main::before { content: '['; position: absolute; left: 20px; top: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
         main::after { content: ']'; position: absolute; right: 20px; bottom: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
 
-        /* [Visual 영역] 이미지 프레임 */
         #visual-frame {
             width: 95%; max-width: 1100px; 
             height: 100%; max-height: 520px; 
@@ -173,7 +187,6 @@
         #loc-container { position: absolute; top: 25px; left: 25px; z-index: 10; }
         #loc-display { font-family: 'Orbitron'; font-size: 14px; color: var(--blue); letter-spacing: 5px; text-shadow: 0 0 15px #000; font-weight: bold; }
 
-        /* 인게임 비디오도 클릭 방해 없도록 동일 설정 적용 */
         #main-video { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease, filter 0.5s ease; pointer-events: none; }
 
         footer { 
@@ -244,7 +257,7 @@
 
     <div id="game-ui">
         <header>
-            <div style="font-family: 'Orbitron'; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 20px; letter-spacing: 3px; filter: drop-shadow(0 0 8px var(--blue-glow));">NEON-HEART</div>
+            <div class="header-logo" onclick="goToTitle()">NEON-HEART</div>
             <div class="stat-group">
                 <div>
                     <div class="stat-label">SYNC <span id="val-sync" class="stat-val">0%</span></div>
@@ -468,7 +481,7 @@
                 videoElement.src = "media/ghost_ending.mp4"; 
                 videoElement.load();
                 
-                diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립 - GHOST 해방]</span><br><br>도시 전체에 푸른 빛이 선명하게 퍼져나갑니다. 오라클의 예속에서 자유를 찾은 안드로이드들이 하늘을 올려다봅니다. 코어-K는 찬란한 광자로 흩어지며 비로소 미소 짓습니다.<br><br><span style="color:var(--blue); font-weight:bold; text-shadow:0 0 10px var(--blue-glow); font-size:1.15rem;">[GHOST ENDING: 기계의 장막 뒤에 영원히 각인된 인간의 기억]</span>`;
+                diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립 - GHOST 해방]</span><br><br>도시 전체에 푸른 빛이 선명하게 퍼져나갑니다. 오라클의 예속에서 자유를 찾은 안드로이드들이 하늘을 올려다봅니다. 코어-K는 찬란 한 광자로 흩어지며 비로소 미소 짓습니다.<br><br><span style="color:var(--blue); font-weight:bold; text-shadow:0 0 10px var(--blue-glow); font-size:1.15rem;">[GHOST ENDING: 기계의 장막 뒤에 영원히 각인된 인간의 기억]</span>`;
                 addLog("CRITICAL: SYSTEM_OVERRIDE_BY_GHOST");
             } else {
                 document.body.style.background = "radial-gradient(circle at center, #1a022b 0%, #010105 100%)";
@@ -479,6 +492,44 @@
                 diag.innerHTML = `<span style="color:#bd00ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(189,0,255,0.6);">[최종 결론: 완전 동기화 - 오라클 군주]</span><br><br>거대한 제단 아래 도시 전체가 완벽하게 계산된 질서로 재편됩니다. 감정을 소거당한 코어-K의 눈빛이 무표정하게 변하고, 시스템 모니터는 완벽하고 차가운 푸른색으로 잠겨버립니다.<br><br><span style="color:var(--magenta); font-weight:bold; text-shadow:0 0 10px var(--magenta-glow); font-size:1.15rem;">[SYNC ENDING: 무결점의 완전한 기계 신격화와 영원한 평화]</span>`;
                 addLog("CRITICAL: SYSTEM_STABILIZED_AS_GOD");
             }
+        }
+
+        /* [추가] 상단 로고 클릭 시 호출될 표지 복귀/게임 초기화 함수 */
+        function goToTitle() {
+            // 1. 인게임 UI 숨기기 및 엔딩 레이아웃 리셋
+            const ui = document.getElementById('game-ui');
+            ui.style.opacity = '0';
+            ui.style.visibility = 'hidden';
+            ui.classList.remove('ending-layout');
+
+            // 2. 인게임 재생 중이던 비디오 초기화 및 숨기기
+            const mainVideo = document.getElementById('main-video');
+            mainVideo.pause();
+            mainVideo.src = "";
+            mainVideo.style.opacity = '0';
+
+            // 3. 게임 데이터 초기화 (처음 스탯 상태로 복구)
+            state.sync = 40;
+            state.ghost = 50;
+            state.noise = 10;
+            state.S2A = false;
+            state.S5A = false;
+            update(0, 0, 0);
+
+            // 4. 왼쪽 로그 박스 스트림 비우기
+            document.getElementById('log-list').innerHTML = "";
+
+            // 5. 첫 표지(타이틀 스크린) 부드럽게 다시 띄우기
+            const titleScreen = document.getElementById('title-screen');
+            titleScreen.style.display = 'flex';
+            setTimeout(() => {
+                titleScreen.style.opacity = '1';
+                
+                // 표지 비디오 처음부터 재생 유도
+                const titleVideo = document.getElementById('title-video');
+                titleVideo.currentTime = 0;
+                titleVideo.play().catch(e => console.log("자동재생 제한 감지:", e));
+            }, 50);
         }
     </script>
 </body>
