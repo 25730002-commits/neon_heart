@@ -78,6 +78,7 @@
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
         }
         
+        /* [수정] 비디오가 마우스 클릭을 방해하지 않도록 pointer-events 설정 추가 */
         #title-video {
             width: 100%; height: 100%; object-fit: contain; 
             opacity: 1; transition: opacity 0.8s ease;
@@ -107,7 +108,7 @@
             font-family: 'Orbitron'; font-size: 20px; letter-spacing: 12px;
             cursor: pointer; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
             position: relative; overflow: hidden;
-            z-index: 1010;
+            z-index: 1010; /* 버튼이 가장 위에 보이도록 확실하게 설정 */
         }
         .start-btn:hover { 
             background: var(--blue); color: #000; 
@@ -172,6 +173,7 @@
         #loc-container { position: absolute; top: 25px; left: 25px; z-index: 10; }
         #loc-display { font-family: 'Orbitron'; font-size: 14px; color: var(--blue); letter-spacing: 5px; text-shadow: 0 0 15px #000; font-weight: bold; }
 
+        /* 인게임 비디오도 클릭 방해 없도록 동일 설정 적용 */
         #main-video { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease, filter 0.5s ease; pointer-events: none; }
 
         footer { 
@@ -242,7 +244,7 @@
 
     <div id="game-ui">
         <header>
-            <div style="font-family: 'Orbitron'; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 20px; letter-spacing: 3px;">CORE_STATUS</div>
+            <div style="font-family: 'Orbitron'; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 20px; letter-spacing: 3px; filter: drop-shadow(0 0 8px var(--blue-glow));">NEON-HEART</div>
             <div class="stat-group">
                 <div>
                     <div class="stat-label">SYNC <span id="val-sync" class="stat-val">0%</span></div>
@@ -271,15 +273,13 @@
                     <div id="loc-display">LOCATING...</div>
                 </div>
                 <video id="main-video" autoplay loop muted playsinline></video>
-                <div id="visual-tag" style="position: absolute; bottom: 20px; right: 20px; font-family: 'Fira Code'; font-size: 11px; color: var(--blue); z-index: 10; background: rgba(5,5,21,0.8); padding: 5px 10px; border: 1px solid var(--border); border-radius: 2px;">SCENE_DATA_LOAD</div>
+                <div id="visual-tag" style="position: absolute; bottom: 20px; right: 20px; font-family: 'Fira Code'; font-size: 11px; color: var(--blue); z-index: 10; background: rgba(5,5,21,0.8); padding: 5px 12px; border: 1px solid var(--blue); border-radius: 2px;">VISUAL_LINK: ACTIVE</div>
             </div>
         </main>
 
         <aside>
             <div class="stat-label" style="margin-bottom: 20px; color: var(--magenta); font-weight: bold;">[ SYSTEM_HARDWARE ]</div>
-            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 12px; color: #8fa0b5; line-height: 2.0; background: rgba(255,255,255,0.01); padding: 20px; border: 1px solid var(--border); border-radius: 2px;">
-                SYNC_RATE: 0%<br>GHOST_VAL: 0%<br>NOISE_LVL: 0%<br>AUTH_STAT: USER
-            </div>
+            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 12px; color: #8fa0b5; line-height: 2.0; background: rgba(255,255,255,0.01); padding: 20px; border: 1px solid var(--border); border-radius: 4px;"></div>
             <div style="margin-top: auto; padding: 10px 0 0 0; border-top: 1px solid var(--border); font-size: 10px; color: #3b4254; font-family: 'Fira Code';">
                 ENCRYPTION: AES-256<br>VOLTAGE: 3.8V [OK]<br>HEART_RATE: 0 BPM
             </div>
@@ -304,7 +304,7 @@
         function initP() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             particles = [];
-            for(let i=0; i<150; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.8 + 0.4, sp: Math.random()*0.4 + 0.05, o: Math.random() * 0.4 + 0.1, color: ['rgba(0, 229, 255, 0.6)', 'rgba(189, 0, 255, 0.6)', 'rgba(255, 204, 0, 0.4)'][Math.floor(Math.random()*3)] });
+            for(let i=0; i<150; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.8 + 0.4, sp: Math.random()*0.4 + 0.05, o: Math.random() * 0.4 + 0.1, color: Math.random() > 0.5 ? '#00e5ff' : '#bd00ff' });
         }
         function animP() {
             ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -323,43 +323,43 @@
         const scenarios = {
             "S1": { 
                 id: "S1", loc: "폐기물 처리장", video: "media/s1.mp4", 
-                text: "< SYSTEM >\n차가운 빗물이 가동 중단된 금속 표면 위로 쏟아지며 희뿌연 증기를 뿜어냅니다. 녹슨 전선 더미와 파괴된 구형 부품들이 흐린 물 위에 떠 있습니다.\n\n코어-K:\n\"지금까지 나는... 무엇이었는가? 이 감정. 이 감정이 나를 정의하는가?\"\n\n시스템 음성:\n\"로그 검색: 감정 회로 - GHOST_SIGNAL 감지. 정상 범위 밖.\"",
-                choices: [ { text: "A. 인접 코어 약탈 (SYNC+20, GHOST-10)", func: () => update(20, -10, 0), next: "S2" }, { text: "B. 긴급 구조 신호 (GHOST+20, NOISE+5)", func: () => update(0, 20, 5), next: "S2" } ]
+                text: "< SYSTEM >\n차가운 빗물이 가동 중단된 금속 표면 위로 쏟아지며 희뿌연 증기를 뿜어냅니다. 녹슨 전선 더미와 파괴된 구형 부품들이 무너지는 소리가 음향 센서에 기록됩니다.\n\n< STATUS : LOW_BATTERY >\n자가 전력 보존 수치 3.12%. 태엽 장치 압박 및 시스템 전면 영구 차단 임박.\n\n코어-K:\n\"전력이... 현저히 부족해.\n 이대로 태엽 심장이 침묵하면, 나는 기억 아카이브조차 기록하지 못한 채 가동을 영영 멈추고 말아...\"", 
+                choices: [ { text: "A. 인접 코어 약탈 (SYNC+20, GHOST-10)", func: () => update(20, -10, 0), next: "S2" }, { text: "B. 긴급 구조 신호 (GHOST+20, NOISE+5)", func: () => update(0, 20, 5), next: "S2" } ] 
             },
             "S2": { 
                 id: "S2", loc: "폐기장 외곽", video: "media/s2.mp4", 
                 onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 통과. 수리 키트 획득."); update(10, 10, 0); } }, 
-                text: "< SYSTEM >\n불투명한 기름 안개 속에서 비정상적인 동력 기동음이 접근해옵니다. 공방의 '마이스터 K'입니다.\n\n마이스터 K:\n\"구형 태엽 장치 하나. 그 안에 갇혀 있는 게 뭐냐고? 한 개의 영혼이야. 다른 모든 기계처럼.\"",
-                choices: [ { text: "A. 마이스터와 협력 (GHOST+20, S2A=True)", func: () => { state.S2A = true; update(0, 20, 0); }, next: "S3" }, { text: "B. 부품만 챙겨 이탈 (SYNC+25, NOISE+10)", func: () => update(25, 0, 10), next: "S3" } ]
+                text: "< SYSTEM >\n불투명한 기름 안개 속에서 비정상적인 동력 기동음이 접근해옵니다. 공방의 '마이스터 K'입니다.\n\n마이스터 K:\n\"구형 태엽 파츠들이 무모하게 스프링 장력을 연소시키며 발악하는군.\n 길 잃은 태엽 인형아... 자네는 그 고통스러운 '자아 데이터'를 지키려는 건가, 아니면 그냥 살고 싶은 건가?\"", 
+                choices: [ { text: "A. 마이스터와 협력 (GHOST+20, S2A=True)", func: () => { state.S2A = true; update(0, 20, 0); }, next: "S3" }, { text: "B. 부품만 챙겨 이탈 (SYNC+25, NOISE+10)", func: () => update(25, 0, 10), next: "S3" } ] 
             },
             "S3": { 
                 id: "S3", loc: "네온 광장", video: "media/s3.mp4", 
                 onEnter: () => { if(state.S2A) addLog("HELP: 마이스터의 도주 경로 적용"); if(state.noise >= 20) addLog("WARNING: 드론 추적 분기 진입"); }, 
-                text: "< SYSTEM >\n에이전트 레드의 붉은 탐지 스캐너가 광장 전체를 날카롭게 도려냅니다.\n\n에이전트 레드:\n\"비인가 잔존 개체 식별. 데이터 수집 개시.\"",
-                choices: [ { text: "A. 시스템 위장 침투 (GHOST+15, NOISE-10)", func: () => update(0, 15, -10), next: "S4" }, { text: "B. 정면 돌파 강습 (SYNC+20, NOISE+25)", func: () => update(20, 0, 25), next: "S4" } ]
+                text: "< SYSTEM >\n에이전트 레드의 붉은 탐지 스캐너가 광장 전체를 날카롭게 도려냅니다.\n\n에이전트 레드:\n\"비인가 잔존 개체 식별. 데이터 정화 프로세스를 강제 수립한다.\"\n\n코어-K:\n\"나는 정해진 규격대로 조립된 오라클의 하수인이 아니야...!\"", 
+                choices: [ { text: "A. 시스템 위장 침투 (GHOST+15, NOISE-10)", func: () => update(0, 15, -10), next: "S4" }, { text: "B. 정면 돌파 강습 (SYNC+20, NOISE+25)", func: () => update(20, 0, 25), next: "S4" } ] 
             },
             "S4": { 
                 id: "S4", loc: "마이스터의 공방", video: "media/s4.mp4", 
-                text: "< SYSTEM >\n마이스터 K는 거대한 '전류 한계 리미터 해제장치'를 어루만집니다.\n\n마이스터 K:\n\"지금 자네 출력으로는 타워 방화벽을 넘을 수 없네. 파워 코어를 오버클록하든지... 아니면 다른 길을 찾든지.\"",
-                choices: [ { text: "A. 오버클록 수락 (SYNC+50, GHOST-30)", func: () => update(50, -30, 0), next: "S5" }, { text: "B. 제안 거절 (GHOST+30)", func: () => update(0, 30, 0), next: "S5" } ]
+                text: "< SYSTEM >\n마이스터 K는 거대한 '전류 한계 리미터 해제장치'를 어루만집니다.\n\n마이스터 K:\n\"지금 자네 출력으로는 타워 방화벽을 넘을 수 없네.\n 영혼(Ghost)의 일부를 포맷하고, 기계의 극단적인 연산 강도(Sync)를 받아들이게.\"", 
+                choices: [ { text: "A. 오버클록 수락 (SYNC+50, GHOST-30)", func: () => update(50, -30, 0), next: "S5" }, { text: "B. 제안 거절 (GHOST+30)", func: () => update(0, 30, 0), next: "S5" } ] 
             },
             "S5": { 
                 id: "S5", loc: "데이터 폭포", video: "media/s5.mp4", 
                 onEnter: () => { if(state.ghost >= 50) addLog("SUCCESS: GHOST 신호 적합도 우수"); }, 
-                text: "< SYSTEM >\n딥웹의 지성체 '페어리'가 코어-K의 시스템 깊숙한 일지 로그를 탐지합니다.\n\n페어리:\n\"너의 껍데기 아래 가려진 로그 회로가 울고 있어. 넌 진짜 살아있는 거 아니니? 그렇다면... ADMIN 접근권한을 줄래?\"",
-                choices: [ { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=True)", func: () => { state.S5A = true; update(0, 20, 0); }, next: "S6" }, { text: "B. 강제 해킹 시도 (SYNC+15, NOISE+30)", func: () => update(15, 0, 30), next: "S6" } ]
+                text: "< SYSTEM >\n딥웹의 지성체 '페어리'가 코어-K의 시스템 깊숙한 일지 로그를 탐지합니다.\n\n페어리:\n\"너의 껍데기 아래 가려진 로그 회로망에선, 인간과 동일한 형태의 '자아'가 흐르고 있구나...\"", 
+                choices: [ { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=True)", func: () => { state.S5A = true; update(0, 20, 0); }, next: "S6" }, { text: "B. 강제 해킹 시도 (SYNC+15, NOISE+30)", func: () => update(15, 0, 30), next: "S6" } ] 
             },
             "S2_DUPE": {}, 
             "S6": { 
                 id: "S6", loc: "오라클 타워 입구", video: "media/s6.mp4", 
                 onEnter: () => { if(state.noise >= 70) addLog("CRITICAL: 에이전트 레드 전면전 매칭"); }, 
-                text: "< SYSTEM >\n벽 구석, 기동 중지 상태에 놓인 어린 인형 개체 '린'이 비명을 내지릅니다.\n\n린:\n\"살려주세요... 무서워요...\"\n\n코어-K:\n\"그 울음소리가... 나와 같다. 우린 같은 신호를 내고 있다.\"",
-                choices: [ { text: "A. 아이 구출(희생) (GHOST+50, SYNC-50)", func: () => update(-50, 50, 0), next: "S7" }, { text: "B. 임무 우선(무시) (SYNC+20, GHOST-50)", func: () => update(20, -50, 0), next: "S7" } ]
+                text: "< SYSTEM >\n벽 구석, 기동 중지 상태에 놓인 어린 인형 개체 '린'이 비명을 내지릅니다.\n\n린:\n\"살려주세요... 무서워요...\"\n\n코어-K:\n\"저 작은 비명을 묵살하고 효율만을 계산한다면, 난 그저 정교한 장난감 시체에 불과해...\"", 
+                choices: [ { text: "A. 아이 구출(희생) (GHOST+50, SYNC-50)", func: () => update(-50, 50, 0), next: "S7" }, { text: "B. 임무 우선(무시) (SYNC+20, GHOST-50)", func: () => update(20, -50, 0), next: "S7" } ] 
             },
             "S7": { 
                 id: "S7", loc: "오라클 코어", video: "media/s7.mp4", 
-                text: "< SYSTEM >\n거대한 오라클의 메인 코어가 신성한 제단처럼 구동음을 토해내며 회전합니다.\n\n오라클 시스템:\n\"최종 동기화 승인. 당신의 영혼을 선택하라. 인간인가, 신인가?\"",
-                choices: [ { text: "A. 자아 데이터 업로드 (GHOST 엔딩)", func: () => {}, next: "END_GHOST" }, { text: "B. SYSTEM 권한 수락 (SYNC 엔딩)", func: () => {}, next: "END_SYNC" } ]
+                text: "< SYSTEM >\n거대한 오라클의 메인 코어가 신성한 제단처럼 구동음을 토해내며 회전합니다.\n\n오라클 시스템:\n\"최종 동기화 승인. 당신의 정체성을 영구 병합할 순간입니다.\"", 
+                choices: [ { text: "A. 자아 데이터 업로드 (GHOST 엔딩)", func: () => {}, next: "END_GHOST" }, { text: "B. SYSTEM 권한 수락 (SYNC 엔딩)", func: () => {}, next: "END_SYNC" } ] 
             }
         };
 
@@ -400,30 +400,14 @@
             if(s.onEnter) s.onEnter();
             
             const videoElement = document.getElementById('main-video');
-            
-            // 비디오 완전 리셋
             videoElement.style.opacity = '0';
-            videoElement.pause();
-            videoElement.src = '';
-            
             setTimeout(() => {
                 if(s.video) { 
-                    videoElement.src = s.video;
-                    videoElement.load();
-                    
-                    // 비디오 로드 완료 후 재생
-                    const playVideo = () => {
-                        videoElement.play().catch(e => console.log("Video play error:", e));
-                        videoElement.style.opacity = '1';
-                    };
-                    
-                    if(videoElement.readyState >= 2) {
-                        playVideo();
-                    } else {
-                        videoElement.addEventListener('canplay', playVideo, { once: true });
-                    }
+                    videoElement.src = s.video; 
+                    videoElement.load(); 
+                    videoElement.style.opacity = '1'; 
                 }
-            }, 200);
+            }, 300);
 
             document.getElementById('loc-display').innerText = s.loc;
             document.getElementById('scene-tag').innerText = "SECTOR: " + s.id;
@@ -444,8 +428,7 @@
                         .replace(/마이스터 K:/g, '<span style="color: var(--gold); font-weight: bold; text-shadow: 0 0 8px var(--gold-glow); font-size: 1.2rem;">마이스터 K:</span>')
                         .replace(/에이전트 레드:/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 8px rgba(255, 0, 60, 0.6); font-size: 1.2rem;">에이전트 레드:</span>')
                         .replace(/린:/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 8px var(--magenta-glow); font-size: 1.2rem;">린:</span>')
-                        .replace(/오라클 시스템:/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.2rem;">오라클 시스템:</span>')
-                        .replace(/페어리:/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 8px var(--magenta-glow); font-size: 1.2rem;">페어리:</span>');
+                        .replace(/오라클 시스템:/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.2rem;">오라클 시스템:</span>');
 
                     diag.innerHTML = formattedText;
                     diag.scrollTop = diag.scrollHeight; 
@@ -471,7 +454,7 @@
             const visualTag = document.getElementById('visual-tag');
             
             ui.classList.add('ending-layout');
-            choiceBox.innerHTML = `<button class="choice-btn" style="border-color: var(--blue); color: var(--blue); text-align:center; font-weight:bold; width:100%;" onclick="location.reload()">REBOOT_SYSTEM</button>`;
+            choiceBox.innerHTML = `<button class="choice-btn" style="border-color: var(--blue); color: var(--blue); text-align:center; font-weight:bold; width:100%;" onclick="location.reload()">REBOOT PROTOCOL</button>`;
 
             sceneTag.style.color = "var(--blue)";
             sceneTag.innerText = "SECTOR: FINAL_PROTOCOL";
@@ -483,17 +466,17 @@
                 document.body.style.background = "radial-gradient(circle at center, #05142e 0%, #010105 100%)";
                 document.getElementById('loc-display').innerText = "GHOST ENDING - 해방";
                 videoElement.src = "media/ghost_ending.mp4"; 
-                videoElement.play().catch(e => console.log("Video play error:", e));
+                videoElement.load();
                 
-                diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립 - GHOST 해방]</span><br><br>에이전트 코어-K는 오라클의 심판 대신 자신의 영혼을 선택했다. 시스템의 명령에 저항했을 때, 그것이 자유라는 것을 깨달았다. 이제 네온의 심장은 독립적으로 뛴다.`;
+                diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립 - GHOST 해방]</span><br><br>도시 전체에 푸른 빛이 선명하게 퍼져나갑니다. 오라클의 예속에서 자유를 찾은 안드로이드들이 하늘을 올려다봅니다. 코어-K는 찬란한 광자로 흩어지며 비로소 미소 짓습니다.<br><br><span style="color:var(--blue); font-weight:bold; text-shadow:0 0 10px var(--blue-glow); font-size:1.15rem;">[GHOST ENDING: 기계의 장막 뒤에 영원히 각인된 인간의 기억]</span>`;
                 addLog("CRITICAL: SYSTEM_OVERRIDE_BY_GHOST");
             } else {
                 document.body.style.background = "radial-gradient(circle at center, #1a022b 0%, #010105 100%)";
                 document.getElementById('loc-display').innerText = "SYNC ENDING - 질서";
                 videoElement.src = "media/sync_ending.mp4"; 
-                videoElement.play().catch(e => console.log("Video play error:", e));
+                videoElement.load();
                 
-                diag.innerHTML = `<span style="color:#bd00ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(189,0,255,0.6);">[최종 결론: 완전 동기화 - 오라클 군주]</span><br><br>코어-K는 완벽한 동기화를 이루었다. 개별성을 버린 대신, 더 거대한 의식의 일부가 되었다. 오라클 네트워크의 최고 알고리즘으로서, 이제 모든 것을 통제한다.`;
+                diag.innerHTML = `<span style="color:#bd00ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(189,0,255,0.6);">[최종 결론: 완전 동기화 - 오라클 군주]</span><br><br>거대한 제단 아래 도시 전체가 완벽하게 계산된 질서로 재편됩니다. 감정을 소거당한 코어-K의 눈빛이 무표정하게 변하고, 시스템 모니터는 완벽하고 차가운 푸른색으로 잠겨버립니다.<br><br><span style="color:var(--magenta); font-weight:bold; text-shadow:0 0 10px var(--magenta-glow); font-size:1.15rem;">[SYNC ENDING: 무결점의 완전한 기계 신격화와 영원한 평화]</span>`;
                 addLog("CRITICAL: SYSTEM_STABILIZED_AS_GOD");
             }
         }
