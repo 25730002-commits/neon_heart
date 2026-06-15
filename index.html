@@ -20,8 +20,8 @@
             --red: #ff003c;
             --red-glow: rgba(255, 0, 60, 0.5);
             --white: #ffffff;
-            --glass: rgba(8, 8, 28, 0.75); 
-            --border: rgba(0, 229, 255, 0.2); 
+            --glass: rgba(8, 8, 28, 0.8); 
+            --border: rgba(0, 229, 255, 0.15); 
             --grad: linear-gradient(135deg, var(--blue), var(--magenta), var(--gold));
         }
 
@@ -33,8 +33,8 @@
             font-family: 'Noto Sans KR', sans-serif; 
             margin: 0; height: 100vh; overflow: hidden;
             background-image: 
-                radial-gradient(circle at 30% 20%, rgba(189, 0, 255, 0.12) 0%, transparent 60%),
-                radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 30% 20%, rgba(189, 0, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.08) 0%, transparent 60%),
                 linear-gradient(rgba(0, 229, 255, 0.015) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(189, 0, 255, 0.015) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
@@ -50,7 +50,7 @@
         }
         @keyframes flow { from { transform: translateY(0); } to { transform: translateY(150px); } }
 
-        /* --- 표지 스타일 --- */
+        /* --- 표지 스타일 (콤팩트 다듬기) --- */
         #title-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #0b0926 0%, #03020a 100%); 
@@ -60,23 +60,23 @@
         }
 
         .title-card {
-            padding: 40px 80px; border: 1px solid var(--border);
+            padding: 30px 60px; border: 1px solid var(--border);
             background: var(--glass); backdrop-filter: blur(40px);
             text-align: center; border-radius: 4px;
             box-shadow: 0 0 100px rgba(3, 2, 10, 0.9), inset 0 0 40px rgba(0, 229, 255, 0.03);
             position: relative;
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            width: 90%; max-width: 800px;
         }
         
-        .title-card::before { content: ''; position: absolute; top: -1px; left: -1px; width: 60px; height: 60px; border-top: 3px solid var(--blue); border-left: 3px solid var(--magenta); }
-        .title-card::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 60px; height: 60px; border-bottom: 3px solid var(--magenta); border-right: 3px solid var(--blue); }
+        .title-card::before { content: ''; position: absolute; top: -1px; left: -1px; width: 40px; height: 40px; border-top: 3px solid var(--blue); border-left: 3px solid var(--magenta); }
+        .title-card::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 40px; height: 40px; border-bottom: 3px solid var(--magenta); border-right: 3px solid var(--blue); }
 
         #title-image-container {
-            width: 100%; max-width: 900px; 
-            height: 480px;                 
+            width: 100%; height: 280px; /* 높이 축소로 비율 최적화 */
             border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 4px; overflow: hidden;
             background: #020208; position: relative;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
         }
         #title-image {
             width: 100%; height: 100%; object-fit: contain; 
@@ -85,7 +85,7 @@
 
         .user-info { 
             font-family: 'Fira Code'; color: var(--blue); letter-spacing: 6px; font-weight: bold; 
-            text-shadow: 0 0 15px var(--blue-glow); animation: flicker 4s infinite;
+            text-shadow: 0 0 15px var(--blue-glow); animation: flicker 4s infinite; font-size: 13px;
         }
 
         @keyframes flicker {
@@ -93,7 +93,7 @@
         }
 
         .main-logo { 
-            font-family: 'Orbitron'; font-size: 80px; font-weight: 900; 
+            font-family: 'Orbitron'; font-size: 60px; font-weight: 900; 
             background: linear-gradient(135deg, #fff 10%, var(--blue) 40%, var(--magenta) 70%, var(--gold) 95%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin: 0; filter: drop-shadow(0 0 30px rgba(189, 0, 255, 0.3));
@@ -101,100 +101,99 @@
         }
 
         .start-btn {
-            padding: 20px 70px; background: transparent;
+            padding: 15px 50px; background: transparent;
             border: 1px solid var(--blue); color: var(--blue);
-            font-family: 'Orbitron'; font-size: 20px; letter-spacing: 12px;
+            font-family: 'Orbitron'; font-size: 18px; letter-spacing: 10px;
             cursor: pointer; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
             position: relative; overflow: hidden;
         }
         .start-btn:hover { 
             background: var(--blue); color: #000; 
-            box-shadow: 0 0 60px var(--blue-glow), 0 0 30px var(--magenta-glow); 
+            box-shadow: 0 0 50px var(--blue-glow), 0 0 20px var(--magenta-glow); 
             transform: scale(1.05);
         }
 
-        /* --- 인게임 UI 그리드 레이아웃 --- */
+        /* --- 인게임 UI 100vh 고정 스크린 --- */
         #game-ui {
-            display: grid; grid-template-columns: 320px 1fr 320px; grid-template-rows: 70px 1fr 260px;
+            display: grid; 
+            grid-template-columns: 280px 1fr 280px; 
+            grid-template-rows: 65px 1fr 200px; /* 전체 100vh 고정 비율 설정 */
             height: 100vh; visibility: hidden; opacity: 0; z-index: 2; position: relative;
+            overflow: hidden;
         }
 
         header { 
             grid-column: 1 / 4; display: flex; justify-content: space-between; align-items: center; 
-            padding: 0 40px; border-bottom: 1px solid var(--border); 
+            padding: 0 30px; border-bottom: 1px solid var(--border); 
             background: rgba(5, 5, 21, 0.95); backdrop-filter: blur(10px);
         }
         header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px; background: var(--grad); opacity: 0.4; }
 
-        .stat-group { display: flex; gap: 40px; }
+        .stat-group { display: flex; gap: 30px; }
         .bar-wrap { 
-            width: 140px; height: 3px; background: rgba(0, 229, 255, 0.08); margin-top: 8px; 
+            width: 120px; height: 3px; background: rgba(0, 229, 255, 0.08); margin-top: 8px; 
             position: relative; overflow: hidden;
         }
         .bar-fill { height: 100%; width: 0%; transition: width 0.8s ease; border-radius: 2px; box-shadow: 0 0 15px currentColor; }
-        .stat-label { font-family: 'Orbitron'; font-size: 11px; color: #a2a2c2; letter-spacing: 1px; display: flex; justify-content: space-between; }
-        .stat-val { font-family: 'Fira Code'; font-size: 12px; color: var(--white); font-weight: bold; }
+        .stat-label { font-family: 'Orbitron'; font-size: 10px; color: #a2a2c2; letter-spacing: 1px; display: flex; justify-content: space-between; }
+        .stat-val { font-family: 'Fira Code'; font-size: 11px; color: var(--white); font-weight: bold; }
 
+        /* 좌우 분할 패널 유연 높이 셋팅 */
         aside { 
-            padding: 20px; background: rgba(5, 5, 21, 0.65); 
+            padding: 15px; background: rgba(5, 5, 21, 0.65); 
             border-left: 1px solid var(--border); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: relative;
-            overflow: hidden; gap: 15px;
+            overflow: hidden; gap: 10px; min-height: 0; /* 중요: 플렉스 내부 오버플로 방지 */
         }
         aside::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--grad); opacity: 0.3; }
 
-        .log-box { flex: 1; overflow-y: auto; font-family: 'Fira Code'; font-size: 11px; color: #8fa0b5; }
-        .log-item { margin-bottom: 10px; padding: 6px; border-left: 2px solid var(--blue); background: rgba(0, 229, 255, 0.02); }
+        .log-box { flex: 1; overflow-y: auto; font-family: 'Fira Code'; font-size: 11px; color: #8fa0b5; min-height: 0; }
+        .log-item { margin-bottom: 8px; padding: 5px; border-left: 2px solid var(--blue); background: rgba(0, 229, 255, 0.02); }
 
-        /* --- [위젯] 좌측 헥사 코드 스트림 위젯 --- */
         .hex-stream-box {
-            height: 90px; border: 1px solid rgba(189, 0, 255, 0.15);
+            height: 70px; border: 1px solid rgba(189, 0, 255, 0.15);
             background: rgba(0, 0, 0, 0.4); border-radius: 4px;
-            font-family: 'Fira Code', monospace; font-size: 10px; color: var(--magenta);
-            padding: 8px; overflow: hidden; line-height: 1.4; opacity: 0.7;
+            font-family: 'Fira Code', monospace; font-size: 9px; color: var(--magenta);
+            padding: 6px; overflow: hidden; line-height: 1.3; opacity: 0.7;
         }
 
+        /* 중앙 비주얼 정밀 배율 보정 */
         main { 
             grid-column: 2 / 3; display: flex; flex-direction: column; justify-content: center; 
             align-items: center; background: rgba(0,0,0,0.3); 
-            position: relative; padding: 10px;
+            position: relative; padding: 10px; overflow: hidden;
         }
-        main::before { content: '['; position: absolute; left: 20px; top: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
-        main::after { content: ']'; position: absolute; right: 20px; bottom: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
+        main::before { content: '['; position: absolute; left: 15px; top: 15px; font-family: 'Orbitron'; font-size: 20px; color: rgba(0, 229, 255, 0.1); }
+        main::after { content: ']'; position: absolute; right: 15px; bottom: 15px; font-family: 'Orbitron'; font-size: 20px; color: rgba(0, 229, 255, 0.1); }
 
-        /* [Visual 영역] 이미지 프레임 */
         #visual-frame {
-            width: 95%; max-width: 1100px; 
-            height: 100%; max-height: 520px; 
+            width: 100%; height: 100%; max-height: 100%;
             border: 1px solid var(--border); position: relative;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: radial-gradient(circle at center, rgba(189, 0, 255, 0.08) 0%, transparent 80%);
-            box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.6);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,0.6);
             transition: all 0.5s ease;
             overflow: hidden; border-radius: 4px;
         }
         
-        #loc-container { position: absolute; top: 25px; left: 25px; z-index: 10; }
-        #loc-display { font-family: 'Orbitron'; font-size: 14px; color: var(--blue); letter-spacing: 5px; text-shadow: 0 0 15px #000; font-weight: bold; }
+        #loc-container { position: absolute; top: 15px; left: 15px; z-index: 10; }
+        #loc-display { font-family: 'Orbitron'; font-size: 12px; color: var(--blue); letter-spacing: 4px; text-shadow: 0 0 10px #000; font-weight: bold; }
 
+        /* 가로 세로 비율 유지하며 오버플로 없이 맞춤 */
         #main-image { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease; }
 
-        /* --- [위젯] 우측 스캐닝 레이더 그리드 위젯 --- */
+        /* 우측 HUD 스탯 위젯 크기 다운사이징 */
         .radar-widget {
-            height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border: 1px solid rgba(0, 229, 255, 0.15); background: rgba(0,0,0,0.4); border-radius: 4px; padding: 10px;
+            height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 1px solid rgba(0, 229, 255, 0.12); background: rgba(0,0,0,0.4); border-radius: 4px; padding: 5px;
         }
         .radar-grid {
-            position: relative; width: 85px; height: 85px; border-radius: 50%;
+            position: relative; width: 70px; height: 70px; border-radius: 50%;
             border: 1px solid rgba(0, 229, 255, 0.2); background: radial-gradient(circle, rgba(0,229,255,0.03) 0%, transparent 100%);
             overflow: hidden;
         }
-        .radar-grid::after {
-            content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(0,229,255,0.15);
-        }
-        .radar-grid::before {
-            content: ''; position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: rgba(0,229,255,0.15);
-        }
+        .radar-grid::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(0,229,255,0.15); }
+        .radar-grid::before { content: ''; position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: rgba(0,229,255,0.15); }
         .radar-sweep {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(35deg, transparent 50%, rgba(0, 229, 255, 0.3) 100%);
@@ -204,22 +203,18 @@
             position: absolute; width: 4px; height: 4px; background: var(--gold); border-radius: 50%;
             box-shadow: 0 0 8px var(--gold); opacity: 0.8; animation: target-pulse 1s infinite alternate;
         }
-        @keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes target-pulse { from { opacity: 0.3; } to { opacity: 1; } }
 
-        /* --- [위젯] 우측 실시간 타겟 리스트 위젯 --- */
         .target-intel-box {
             flex: 1; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0,0,0,0.2);
-            border-radius: 4px; padding: 12px; font-family: 'Fira Code', monospace; font-size: 11px;
-            color: #8fa5ba; display: flex; flex-direction: column; gap: 8px; overflow-y: auto;
+            border-radius: 4px; padding: 10px; font-family: 'Fira Code', monospace; font-size: 10px;
+            color: #8fa5ba; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; min-height: 0;
         }
-        .intel-row { display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.03); padding-bottom: 4px; }
+        .intel-row { display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.03); padding-bottom: 3px; }
         .intel-val { color: var(--blue); font-weight: bold; }
 
-        /* --- [위젯] 우측 실시간 심장 주파수 Wave 위젯 --- */
         .ekg-widget {
-            height: 60px; border: 1px solid rgba(0, 229, 255, 0.15); background: rgba(0,0,0,0.4);
-            border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 5px;
+            height: 45px; border: 1px solid rgba(0, 229, 255, 0.12); background: rgba(0,0,0,0.4);
+            border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 3px;
         }
         .ekg-svg { width: 100%; height: 100%; }
         .ekg-path {
@@ -228,98 +223,63 @@
             animation: ekg-draw 4s linear infinite;
             filter: drop-shadow(0 0 3px var(--blue));
         }
-        @keyframes ekg-draw { to { stroke-dashoffset: 0; } }
 
+        /* 하단 컨트롤러 높이 컴팩트 정돈 */
         footer { 
-            grid-column: 1 / 4; display: grid; grid-template-columns: 1.5fr 1fr; 
-            padding: 20px 60px; gap: 40px; background: #03030d; border-top: 1px solid var(--border);
-            box-shadow: 0 -20px 50px rgba(0,0,0,0.8);
+            grid-column: 1 / 4; display: grid; grid-template-columns: 1.4fr 1fr; 
+            padding: 15px 40px; gap: 30px; background: #03030d; border-top: 1px solid var(--border);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.8); height: 100%; overflow: hidden;
         }
 
-        #dialogue-area { display: flex; flex-direction: column; justify-content: flex-start; }
+        #dialogue-area { display: flex; flex-direction: column; justify-content: flex-start; min-height: 0; }
         #main-dialogue { 
-            font-size: 1.1rem; line-height: 1.6; color: #c4cedb; 
+            font-size: 1rem; line-height: 1.5; color: #c4cedb; 
             text-shadow: 0 2px 10px rgba(0,0,0,0.9); font-weight: 400; 
-            overflow-y: auto; height: 180px; padding-right: 15px;
+            overflow-y: auto; height: 115px; padding-right: 15px;
             white-space: pre-wrap; word-break: keep-all;
         }
         
-        /* --- [수정] 이중 색상 선택지 버튼 스타일 (SYNC 블루 / GHOST 퍼플) --- */
-        .choices { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
-        
+        .choices { display: flex; flex-direction: column; gap: 8px; justify-content: center; height: 100%; overflow-y: auto; }
         .choice-btn { 
-            border-radius: 4px; position: relative;
-            padding: 12px 25px; text-align: left; font-size: 14px; cursor: pointer; transition: 0.3s;
-            font-family: 'Noto Sans KR';
+            background: rgba(0, 229, 255, 0.02); border: 1px solid rgba(0, 229, 255, 0.15); color: #a9b7c7;
+            padding: 10px 20px; text-align: left; font-size: 13px; cursor: pointer; transition: 0.3s;
+            font-family: 'Noto Sans KR'; border-radius: 4px; position: relative;
         }
+        .choice-btn:hover { 
+            background: rgba(189, 0, 255, 0.1); color: var(--blue); border-color: var(--blue); 
+            padding-left: 40px; box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+        }
+        .choice-btn::before { content: '>'; position: absolute; left: 15px; opacity: 0; transition: 0.4s; color: var(--blue); }
+        .choice-btn:hover::before { opacity: 1; left: 20px; }
+
+        /* A, B 다중 컬러 버튼 */
+        .choice-btn-a { background: rgba(0, 229, 255, 0.03); border: 1px solid rgba(0, 229, 255, 0.2); color: #a9e0f5; }
+        .choice-btn-a:hover { background: rgba(0, 229, 255, 0.08); color: var(--blue); border-color: var(--blue); }
+        .choice-btn-b { background: rgba(189, 0, 255, 0.03); border: 1px solid rgba(189, 0, 255, 0.2); color: #f0c2ff; }
+        .choice-btn-b:hover { background: rgba(189, 0, 255, 0.08); color: #e599ff; border-color: var(--magenta); }
+        .choice-btn-reboot { background: rgba(255, 204, 0, 0.03); border: 1px solid rgba(255, 204, 0, 0.3); color: var(--gold); }
+        .choice-btn-reboot:hover { background: rgba(255, 204, 0, 0.1); color: #fff; border-color: var(--gold); box-shadow: 0 0 30px rgba(255, 204, 0, 0.3); }
+
+        @keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes target-pulse { from { opacity: 0.3; } to { opacity: 1; } }
+        @keyframes ekg-draw { to { stroke-dashoffset: 0; } }
+        @keyframes flow { from { transform: translateY(0); } to { transform: translateY(150px); } }
         
-        /* A타입 선택지 (SYNC 계열) - 일렉트릭 블루 네온 */
-        .choice-btn-a {
-            background: rgba(0, 229, 255, 0.03); 
-            border: 1px solid rgba(0, 229, 255, 0.2); 
-            color: #a9e0f5;
-        }
-        .choice-btn-a:hover { 
-            background: rgba(0, 229, 255, 0.08); 
-            color: var(--blue); 
-            border-color: var(--blue); 
-            padding-left: 45px; 
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.3), inset 0 0 15px rgba(0, 229, 255, 0.1);
-        }
-        .choice-btn-a::before { content: '◆'; position: absolute; left: 15px; opacity: 0; transition: 0.3s; color: var(--blue); font-size: 10px; }
-        .choice-btn-a:hover::before { opacity: 1; left: 20px; }
-
-        /* B타입 선택지 (GHOST 계열) - 네온 보라/마젠타 */
-        .choice-btn-b {
-            background: rgba(189, 0, 255, 0.03); 
-            border: 1px solid rgba(189, 0, 255, 0.2); 
-            color: #f0c2ff;
-        }
-        .choice-btn-b:hover { 
-            background: rgba(189, 0, 255, 0.08); 
-            color: #e599ff; 
-            border-color: var(--magenta); 
-            padding-left: 45px; 
-            box-shadow: 0 0 25px rgba(189, 0, 255, 0.3), inset 0 0 15px rgba(189, 0, 255, 0.1);
-        }
-        .choice-btn-b::before { content: '◇'; position: absolute; left: 15px; opacity: 0; transition: 0.3s; color: var(--magenta); font-size: 10px; }
-        .choice-btn-b:hover::before { opacity: 1; left: 20px; }
-
-        /* 시스템 리부트 버튼 전용 (황금빛 테마) */
-        .choice-btn-reboot {
-            background: rgba(255, 204, 0, 0.03);
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            color: var(--gold);
-        }
-        .choice-btn-reboot:hover {
-            background: rgba(255, 204, 0, 0.1);
-            color: #fff;
-            border-color: var(--gold);
-            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
-        }
-
-        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        
-        /* 엔딩 시 화면 전면 장악 */
         .ending-active #visual-frame {
             border: 2px solid var(--blue);
             box-shadow: 0 0 120px rgba(0, 229, 255, 0.3);
             transform: scale(0.98);
         }
 
-        /* 경보 상황 화면 진동 및 위험 레이어 */
-        .warning-danger {
-            animation: warningShake 0.4s infinite alternate;
-        }
+        .warning-danger { animation: warningShake 0.4s infinite alternate; }
         @keyframes warningShake {
             from { transform: translate(1px, 1px) rotate(0.1deg); }
             to { transform: translate(-1px, -1px) rotate(-0.1deg); }
         }
 
-        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-        ::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.25); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.2); border-radius: 2px; }
     </style>
 </head>
 <body>
@@ -327,7 +287,6 @@
     <div class="bg-lines"></div>
     <canvas id="particles"></canvas>
 
-    <!-- 표지 화면 -->
     <div id="title-screen">
         <div class="title-card">
             <div id="title-image-container">
@@ -342,10 +301,9 @@
         </div>
     </div>
 
-    <!-- 게임 본 UI -->
     <div id="game-ui">
         <header>
-            <div class="header-logo" onclick="location.reload()">NEON-HEART</div>
+            <div style="font-family: 'Orbitron'; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 20px; letter-spacing: 3px; filter: drop-shadow(0 0 8px var(--blue-glow));">NEON-HEART</div>
             <div class="stat-group">
                 <div>
                     <div class="stat-label">SYNC <span id="val-sync" class="stat-val">0%</span></div>
@@ -363,12 +321,11 @@
             <div style="font-family: 'Fira Code'; font-size: 11px; color: #555577; text-align: right;">USER: YUN_SY_25730002</div>
         </header>
 
-        <!-- 좌측 패널 (메모리 아카이브 + 헥사 코드 스트림) -->
         <aside>
-            <div class="stat-label" style="color: var(--gold); font-weight: bold;">[ SYSTEM_MEMORY_LOG ]</div>
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ SYSTEM_MEMORY_LOG ]</div>
             <div id="log-list" class="log-box"></div>
             
-            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 10px;">[ COGNITIVE_HEX_DUMP ]</div>
+            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 5px; margin-bottom: 5px;">[ COGNITIVE_HEX_DUMP ]</div>
             <div class="hex-stream-box" id="hex-stream"></div>
         </aside>
 
@@ -378,13 +335,12 @@
                     <div id="loc-display">LOCATING...</div>
                 </div>
                 <img id="main-image" src="" alt="[SCENE]">
-                <div style="position: absolute; bottom: 20px; right: 20px; font-family: 'Fira Code'; font-size: 11px; color: var(--blue); z-index: 10; background: rgba(5,5,21,0.8); padding: 5px 12px; border: 1px solid var(--blue); border-radius: 2px;">VISUAL_LINK: ACTIVE</div>
+                <div style="position: absolute; bottom: 15px; right: 15px; font-family: 'Fira Code'; font-size: 10px; color: var(--blue); z-index: 10; background: rgba(5,5,21,0.8); padding: 3px 8px; border: 1px solid var(--blue); border-radius: 2px;">VISUAL_LINK: ACTIVE</div>
             </div>
         </main>
 
-        <!-- 우측 패널 (전술 레이더 + 실시간 타겟 인텔 + 심박수) -->
         <aside>
-            <div class="stat-label" style="color: var(--blue); font-weight: bold;">[ TACTICAL_RADAR_GRID ]</div>
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ TACTICAL_RADAR_GRID ]</div>
             <div class="radar-widget">
                 <div class="radar-grid">
                     <div class="radar-sweep"></div>
@@ -393,15 +349,15 @@
                 </div>
             </div>
 
-            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 5px;">[ TARGETING_INTEL ]</div>
+            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 5px; margin-bottom: 5px;">[ TARGETING_INTEL ]</div>
             <div class="target-intel-box" id="target-intel">
-                <div class="intel-row"><span>CURRENT_MODEL</span><span class="intel-val">CORE-K</span></div>
-                <div class="intel-row"><span>SYS_STABILITY</span><span class="intel-val" style="color:var(--gold);">94.8%</span></div>
-                <div class="intel-row"><span>LOC_SECTOR</span><span class="intel-val" id="intel-loc">UNKNOWN</span></div>
-                <div class="intel-row"><span>THREAT_CLASS</span><span class="intel-val" id="intel-threat" style="color:var(--red);">NONE</span></div>
+                <div class="intel-row"><span>MODEL</span><span class="intel-val">CORE-K</span></div>
+                <div class="intel-row"><span>STABILITY</span><span class="intel-val" style="color:var(--gold);">94.8%</span></div>
+                <div class="intel-row"><span>SECTOR</span><span class="intel-val" id="intel-loc">UNKNOWN</span></div>
+                <div class="intel-row"><span>THREAT</span><span class="intel-val" id="intel-threat" style="color:var(--red);">NONE</span></div>
             </div>
 
-            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-top: 5px;">[ CORE_BEAT_FREQUENCY ]</div>
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px; margin-top: 5px;">[ CORE_FREQUENCY ]</div>
             <div class="ekg-widget">
                 <svg class="ekg-svg" viewBox="0 0 200 50">
                     <path class="ekg-path" d="M 0 25 L 30 25 L 40 10 L 50 40 L 60 25 L 90 25 L 100 5 L 110 45 L 120 25 L 150 25 L 160 15 L 170 35 L 180 25 L 200 25" />
@@ -411,8 +367,8 @@
 
         <footer>
             <div id="dialogue-area">
-                <div id="scene-tag" style="font-family: 'Orbitron'; font-size: 13px; color: var(--magenta); margin-bottom: 12px; letter-spacing: 4px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
-                    <span style="width: 8px; height: 8px; background: var(--magenta); border-radius: 50%; box-shadow: 0 0 10px var(--magenta-glow);"></span>
+                <div id="scene-tag" style="font-family: 'Orbitron'; font-size: 11px; color: var(--magenta); margin-bottom: 8px; letter-spacing: 4px; font-weight: bold; display: flex; align-items: center; gap: 8px;">
+                    <span style="width: 6px; height: 6px; background: var(--magenta); border-radius: 50%; box-shadow: 0 0 10px var(--magenta-glow);"></span>
                     SECTOR: INITIALIZING
                 </div>
                 <div id="main-dialogue"></div>
@@ -428,7 +384,7 @@
         function initP() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             particles = [];
-            for(let i=0; i<150; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.8 + 0.4, sp: Math.random()*0.4 + 0.05, o: Math.random() * 0.4 + 0.1, color: Math.random() > 0.5 ? '#ffcc00' : '#ff00ff' });
+            for(let i=0; i<100; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.8 + 0.4, sp: Math.random()*0.4 + 0.05, o: Math.random() * 0.4 + 0.1, color: Math.random() > 0.5 ? '#00e5ff' : '#bd00ff' });
         }
         function animP() {
             ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -442,7 +398,6 @@
         }
         window.addEventListener('resize', initP); initP(); animP();
 
-        // --- 헥사 코드 스트림 생성기 ---
         const hexStream = document.getElementById('hex-stream');
         function generateHexDump() {
             let dump = '';
@@ -456,7 +411,6 @@
         }
         setInterval(generateHexDump, 2000); generateHexDump();
 
-        // --- Web Audio API를 활용한 효과음 생성 엔진 ---
         let audioCtx;
         function getAudioContext() {
             if (!audioCtx) {
@@ -513,7 +467,7 @@
             },
             "S2": { 
                 id: "S2", loc: "폐기장 외곽", image: "s2.png", threat: "MEISTER_K (MEDIUM)",
-                onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); update(10, 10, 0); } }, 
+                onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); updateStats(10, 10, 0); } }, 
                 text: "< SYSTEM >\n불투명한 기름 안개와 검은 매연 속에서 비정상적인 동력 기동음이 접근해옵니다. 오라클 감시 통제망 휘하의 추적에 맞서 임시 개조를 이어오던 공방의 '마이스터 K'입니다. 기계 안구가 불빛을 튕겨내며 코어-K의 태엽부를 날카롭게 주시합니다.\n\n마이스터 K:\n\"구형 태엽 파츠들이 무모하게 스프링 장력을 연소시키며 발악하는군.\n 길 잃은 태엽 인형아... 자네는 그 고통스러운 '자아 데이터'를 영원히 지키려는 건가,\n 아니면 편안하게 기계의 영원한 무(無)로 동기화되고 싶은 건가?\"\n\n< CORE_RESPONSE >\n코어-K 내부 엔진은 마이스터의 의안을 마주한 채 태엽이 비정상적으로 헛돌며 연산 오류(Critical Sync Loss)를 연발합니다.", 
                 choices: [ 
                     { text: "A. 마이스터와 협력 (GHOST+20, S2A=True) [자아 협정 체결]", func: () => { state.S2A = true; updateStats(0, 20, 0); }, next: "S3" }, 
@@ -596,7 +550,6 @@
             document.getElementById('val-ghost').innerText = state.ghost + "%";
             document.getElementById('val-noise').innerText = state.noise + "%";
 
-            // 위험 상황 진동 및 효과음 처리
             if (state.noise >= 60) {
                 document.body.classList.add('warning-danger');
                 playAlertAlarm();
@@ -623,12 +576,11 @@
                 if(s.image) { imgElement.src = s.image; imgElement.style.opacity = '1'; }
             }, 300);
 
-            // 실시간 우측 인텔 위젯 데이터 반영
             document.getElementById('intel-loc').innerText = s.loc;
             document.getElementById('intel-threat').innerText = s.threat || "NONE";
 
             document.getElementById('loc-display').innerText = s.loc;
-            document.getElementById('scene-tag').innerText = "SECTOR: " + s.id;
+            document.getElementById('scene-tag').innerHTML = "<span></span>SECTOR: " + s.id;
             
             const diag = document.getElementById('main-dialogue');
             const choiceBox = document.getElementById('choice-area');
@@ -663,11 +615,10 @@
                     clearInterval(timer);
                     s.choices.forEach((c, idx) => {
                         const b = document.createElement('button');
-                        // [수정] 첫 번째 옵션은 choice-btn-a, 두 번째 옵션은 choice-btn-b 클래스 부여
                         b.className = idx === 0 ? "choice-btn choice-btn-a" : "choice-btn choice-btn-b";
                         b.innerText = c.text;
                         b.onclick = () => {
-                            playSynthBeep(520, 0.08); // 클릭 시 기계식 효과음
+                            playSynthBeep(520, 0.08);
                             c.func();
                             renderScene(c.next);
                         };
@@ -685,14 +636,11 @@
             const sceneTag = document.getElementById('scene-tag');
             
             ui.classList.add('ending-active');
-            
-            // 리부트 버튼 리부트용 황금빛 전용 클래스 매핑
             choiceBox.innerHTML = `<button class="choice-btn choice-btn-reboot" style="text-align:center; font-weight:bold; width:100%;" onclick="location.reload()">REBOOT PROTOCOL</button>`;
 
             sceneTag.style.color = "var(--blue)";
             sceneTag.innerText = "SECTOR: FINAL_PROTOCOL";
 
-            // 최종 엔딩 승리 효과음 시퀀스
             playSynthBeep(440, 0.3);
             setTimeout(() => playSynthBeep(554, 0.3), 200);
             setTimeout(() => playSynthBeep(659, 0.5), 400);
