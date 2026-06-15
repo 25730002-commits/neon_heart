@@ -334,7 +334,7 @@
             <div style="font-family: 'Fira Code'; font-size: 11px; color: #555577; text-align: right;">USER: YUN_SY_25730002</div>
         </header>
 
-        <!-- 좌측 패널 (시스템 다이아그노스틱 알림창 + 로그박스 + 헥사 덤프) -->
+        <!-- 좌측 패널 (시스템 다이아그노스틱 알림창 + 로그박스 + 헥사 덤프 + 환경 상태 정보창) -->
         <aside>
             <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ SYSTEM_DIAGNOSTIC_SCREEN ]</div>
             <div id="system-diagnostic"></div>
@@ -344,6 +344,10 @@
             
             <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ COGNITIVE_HEX_DUMP ]</div>
             <div class="hex-stream-box" id="hex-stream"></div>
+
+            <!-- [수정] 복원한 실시간 하이테크 시스템 환경 진단창 -->
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ SYSTEM_STATUS ]</div>
+            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 11px; color: #666; background: rgba(255,255,255,0.02); padding: 8px; border: 1px solid rgba(255,255,255,0.05); border-radius: 4px;"></div>
         </aside>
 
         <main>
@@ -425,7 +429,7 @@
                 let value2 = Math.floor(Math.random()*256).toString(16).toUpperCase().padStart(2, '0');
                 dump += `${address}: ${value1} ${value2} [OP_CORE_SYNC]<br>`;
             }
-            hexStream.innerHTML = dump;
+            if (hexStream) hexStream.innerHTML = dump;
         }
         setInterval(generateHexDump, 2000); generateHexDump();
 
@@ -518,7 +522,7 @@
                 onEnter: () => { if(state.ghost >= 50) addLog("ACCESS: 페어리의 승인 획득"); else addLog("WARN: 보안 인증 파기 - 교전 프로토콜 실행"); }, 
                 text: "< SYSTEM >\n자아 데이터의 소스 코드가 흐르고 넘쳐 폭포를 이루는 딥웹의 경계면.\n빛을 모아 직조한 듯한 딥웹의 지성체 '페어리'가 코어-K의 시스템 깊숙한 일지 로그를 탐지하기 시작합니다.\n\n페어리:\n\"너의 껍데기 아래 가려진 로그 회로망에선, 인간과 동일한 형태의 '자아'가 흐르고 있구나...\n 아니면, 그저 차갑고 영혼 없는, 가공된 철 덩어리에 불과한 걸까? 자네는 스스로를 무엇으로 정의하지?\"\n\n< ANALYSIS_STREAMING >\n페어리의 눈부신 잔향 데이터가 망막 디스플레이를 어지럽힙니다. 태엽심장인형 코어-K는 떨리는 손가락 끝으로 심장부 모듈을 움켜쥡니다.", 
                 choices: [ 
-                    { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=true) [자아 공명 교감]", func: () => { updateStats(0, 20, 0); state.S5A = true; }, next: "S6" }, 
+                    { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=true)", func: () => { updateStats(0, 20, 0); state.S5A = true; }, next: "S6" }, 
                     { text: "B. 강제 해킹 (SYNC+15, NOISE+30) [무차비한 데이터 강탈]", func: () => updateStats(15, 0, 30), next: "S6" } 
                 ] 
             },
@@ -569,10 +573,13 @@
             document.getElementById('val-noise').innerText = state.noise + "%";
 
             // 실시간 상태 업데이트
-            document.getElementById('status-panel').innerHTML = `
-                SYNC: ${state.sync}% | GHOST: ${state.ghost}% | NOISE: ${state.noise}%<br>
-                AUTH: ${state.S5A ? 'ADMIN_ROOT' : 'USER_COMMON'}
-            `;
+            const panel = document.getElementById('status-panel');
+            if (panel) {
+                panel.innerHTML = `
+                    SYNC: ${state.sync}% | GHOST: ${state.ghost}% | NOISE: ${state.noise}%<br>
+                    AUTH: ${state.S5A ? 'ADMIN_ROOT' : 'USER_COMMON'}
+                `;
+            }
 
             if (state.noise >= 60) {
                 document.body.classList.add('warning-danger');
