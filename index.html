@@ -50,7 +50,7 @@
         }
         @keyframes flow { from { transform: translateY(0); } to { transform: translateY(150px); } }
 
-        /* --- 표지 스타일 (콤팩트 다듬기) --- */
+        /* --- 표지 스타일 --- */
         #title-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #0b0926 0%, #03020a 100%); 
@@ -73,7 +73,7 @@
         .title-card::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 40px; height: 40px; border-bottom: 3px solid var(--magenta); border-right: 3px solid var(--blue); }
 
         #title-image-container {
-            width: 100%; height: 280px; /* 높이 축소로 비율 최적화 */
+            width: 100%; height: 280px; 
             border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 4px; overflow: hidden;
             background: #020208; position: relative;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
@@ -117,7 +117,7 @@
         #game-ui {
             display: grid; 
             grid-template-columns: 280px 1fr 280px; 
-            grid-template-rows: 65px 1fr 200px; /* 전체 100vh 고정 비율 설정 */
+            grid-template-rows: 65px 1fr 200px; 
             height: 100vh; visibility: hidden; opacity: 0; z-index: 2; position: relative;
             overflow: hidden;
         }
@@ -143,12 +143,20 @@
             padding: 15px; background: rgba(5, 5, 21, 0.65); 
             border-left: 1px solid var(--border); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: relative;
-            overflow: hidden; gap: 10px; min-height: 0; /* 중요: 플렉스 내부 오버플로 방지 */
+            overflow: hidden; gap: 10px; min-height: 0; 
         }
         aside::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--grad); opacity: 0.3; }
 
         .log-box { flex: 1; overflow-y: auto; font-family: 'Fira Code'; font-size: 11px; color: #8fa0b5; min-height: 0; }
         .log-item { margin-bottom: 8px; padding: 5px; border-left: 2px solid var(--blue); background: rgba(0, 229, 255, 0.02); }
+
+        /* --- [신규 위젯] 실시간 시스템 알림 및 스크립트 출력창 --- */
+        #system-diagnostic {
+            height: 120px; border: 1px solid rgba(0, 229, 255, 0.18);
+            background: rgba(0, 0, 0, 0.4); border-radius: 4px;
+            font-family: 'Fira Code', monospace; font-size: 10.5px; color: #a2b0c9;
+            padding: 8px; overflow-y: auto; line-height: 1.45;
+        }
 
         .hex-stream-box {
             height: 70px; border: 1px solid rgba(189, 0, 255, 0.15);
@@ -179,10 +187,9 @@
         #loc-container { position: absolute; top: 15px; left: 15px; z-index: 10; }
         #loc-display { font-family: 'Orbitron'; font-size: 12px; color: var(--blue); letter-spacing: 4px; text-shadow: 0 0 10px #000; font-weight: bold; }
 
-        /* 가로 세로 비율 유지하며 오버플로 없이 맞춤 */
         #main-image { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease; }
 
-        /* 우측 HUD 스탯 위젯 크기 다운사이징 */
+        /* 우측 HUD 스탯 위젯 */
         .radar-widget {
             height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center;
             border: 1px solid rgba(0, 229, 255, 0.12); background: rgba(0,0,0,0.4); border-radius: 4px; padding: 5px;
@@ -224,7 +231,7 @@
             filter: drop-shadow(0 0 3px var(--blue));
         }
 
-        /* 하단 컨트롤러 높이 컴팩트 정돈 */
+        /* 하단 컨트롤러 */
         footer { 
             grid-column: 1 / 4; display: grid; grid-template-columns: 1.4fr 1fr; 
             padding: 15px 40px; gap: 30px; background: #03030d; border-top: 1px solid var(--border);
@@ -233,7 +240,7 @@
 
         #dialogue-area { display: flex; flex-direction: column; justify-content: flex-start; min-height: 0; }
         #main-dialogue { 
-            font-size: 1rem; line-height: 1.5; color: #c4cedb; 
+            font-size: 1.05rem; line-height: 1.6; color: #cbd6e2; 
             text-shadow: 0 2px 10px rgba(0,0,0,0.9); font-weight: 400; 
             overflow-y: auto; height: 115px; padding-right: 15px;
             white-space: pre-wrap; word-break: keep-all;
@@ -241,22 +248,24 @@
         
         .choices { display: flex; flex-direction: column; gap: 8px; justify-content: center; height: 100%; overflow-y: auto; }
         .choice-btn { 
-            background: rgba(0, 229, 255, 0.02); border: 1px solid rgba(0, 229, 255, 0.15); color: #a9b7c7;
             padding: 10px 20px; text-align: left; font-size: 13px; cursor: pointer; transition: 0.3s;
             font-family: 'Noto Sans KR'; border-radius: 4px; position: relative;
         }
         .choice-btn:hover { 
-            background: rgba(189, 0, 255, 0.1); color: var(--blue); border-color: var(--blue); 
             padding-left: 40px; box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
         }
-        .choice-btn::before { content: '>'; position: absolute; left: 15px; opacity: 0; transition: 0.4s; color: var(--blue); }
+        .choice-btn::before { content: '>'; position: absolute; left: 15px; opacity: 0; transition: 0.4s; }
         .choice-btn:hover::before { opacity: 1; left: 20px; }
 
         /* A, B 다중 컬러 버튼 */
-        .choice-btn-a { background: rgba(0, 229, 255, 0.03); border: 1px solid rgba(0, 229, 255, 0.2); color: #a9e0f5; }
+        .choice-btn-a { background: rgba(0, 229, 255, 0.03); border: 1px solid rgba(0, 229, 255, 0.15); color: #a9e0f5; }
         .choice-btn-a:hover { background: rgba(0, 229, 255, 0.08); color: var(--blue); border-color: var(--blue); }
-        .choice-btn-b { background: rgba(189, 0, 255, 0.03); border: 1px solid rgba(189, 0, 255, 0.2); color: #f0c2ff; }
+        .choice-btn-a::before { color: var(--blue); }
+        
+        .choice-btn-b { background: rgba(189, 0, 255, 0.03); border: 1px solid rgba(189, 0, 255, 0.15); color: #f0c2ff; }
         .choice-btn-b:hover { background: rgba(189, 0, 255, 0.08); color: #e599ff; border-color: var(--magenta); }
+        .choice-btn-b::before { color: var(--magenta); }
+        
         .choice-btn-reboot { background: rgba(255, 204, 0, 0.03); border: 1px solid rgba(255, 204, 0, 0.3); color: var(--gold); }
         .choice-btn-reboot:hover { background: rgba(255, 204, 0, 0.1); color: #fff; border-color: var(--gold); box-shadow: 0 0 30px rgba(255, 204, 0, 0.3); }
 
@@ -287,6 +296,7 @@
     <div class="bg-lines"></div>
     <canvas id="particles"></canvas>
 
+    <!-- 표지 화면 -->
     <div id="title-screen">
         <div class="title-card">
             <div id="title-image-container">
@@ -301,6 +311,7 @@
         </div>
     </div>
 
+    <!-- 게임 본 UI -->
     <div id="game-ui">
         <header>
             <div style="font-family: 'Orbitron'; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 20px; letter-spacing: 3px; filter: drop-shadow(0 0 8px var(--blue-glow));">NEON-HEART</div>
@@ -321,11 +332,15 @@
             <div style="font-family: 'Fira Code'; font-size: 11px; color: #555577; text-align: right;">USER: YUN_SY_25730002</div>
         </header>
 
+        <!-- 좌측 패널 (시스템 다이아그노스틱 알림창 + 로그박스 + 헥사 덤프) -->
         <aside>
-            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ SYSTEM_MEMORY_LOG ]</div>
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ SYSTEM_DIAGNOSTIC_SCREEN ]</div>
+            <div id="system-diagnostic"></div>
+
+            <div class="stat-label" style="color: var(--gold); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ SYSTEM_MEMORY_LOG ]</div>
             <div id="log-list" class="log-box"></div>
             
-            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 5px; margin-bottom: 5px;">[ COGNITIVE_HEX_DUMP ]</div>
+            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ COGNITIVE_HEX_DUMP ]</div>
             <div class="hex-stream-box" id="hex-stream"></div>
         </aside>
 
@@ -339,6 +354,7 @@
             </div>
         </main>
 
+        <!-- 우측 패널 (전술 레이더 + 실시간 타겟 인텔 + 심박수) -->
         <aside>
             <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ TACTICAL_RADAR_GRID ]</div>
             <div class="radar-widget">
@@ -550,6 +566,12 @@
             document.getElementById('val-ghost').innerText = state.ghost + "%";
             document.getElementById('val-noise').innerText = state.noise + "%";
 
+            // 실시간 상태 업데이트
+            document.getElementById('status-panel').innerHTML = `
+                SYNC: ${state.sync}% | GHOST: ${state.ghost}% | NOISE: ${state.noise}%<br>
+                AUTH: ${state.S5A ? 'ADMIN_ROOT' : 'USER_COMMON'}
+            `;
+
             if (state.noise >= 60) {
                 document.body.classList.add('warning-danger');
                 playAlertAlarm();
@@ -565,10 +587,90 @@
             list.prepend(item);
         }
 
+        /* --- [신규 기능] 텍스트 분류기 (SYSTEM 및 일반 대화 분리) --- */
+        function splitText(rawText) {
+            let systemText = "";
+            let dialogueText = "";
+            let blocks = rawText.split(/\n\n+/);
+            
+            blocks.forEach(block => {
+                let trimmed = block.trim();
+                // 시스템 헤더 혹은 < SYSTEM > 키워드가 포함되면 시스템 알림창으로 분배
+                if (trimmed.startsWith("<") || 
+                    trimmed.includes("< SYSTEM >") || 
+                    trimmed.includes("< STATUS") || 
+                    trimmed.includes("< DECISION") || 
+                    trimmed.includes("< THREAT") || 
+                    trimmed.includes("< REACTION") || 
+                    trimmed.includes("< ANALYSIS") || 
+                    trimmed.includes("< CRITICAL") || 
+                    trimmed.includes("< TIMELINE")) {
+                    systemText += block + "\n\n";
+                } else {
+                    dialogueText += block + "\n\n";
+                }
+            });
+            
+            return {
+                system: systemText.trim(),
+                dialogue: dialogueText.trim()
+            };
+        }
+
+        /* --- [신규 기능] 태그 안전형 텍스트 변환 엔진 --- */
+        function formatCyberText(rawText) {
+            return rawText
+                .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                .replace(/&lt;\s*SYSTEM\s*&gt;/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 10px var(--blue-glow);">&lt; SYSTEM &gt;</span>')
+                .replace(/&lt;\s*STATUS\s*:\s*LOW_BATTERY\s*&gt;/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);">&lt; STATUS : LOW_BATTERY &gt;</span>')
+                .replace(/&lt;\s*DECISION_REQUIRED\s*&gt;/g, '<span style="color: var(--gold); font-weight: bold; text-shadow: 0 0 10px var(--gold-glow);">&lt; DECISION REQUIRED &gt;</span>')
+                .replace(/&lt;\s*CORE_RESPONSE\s*&gt;/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 10px var(--blue-glow);">&lt; CORE RESPONSE &gt;</span>')
+                .replace(/&lt;\s*THREAT_LEVEL_CRITICAL\s*&gt;/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);">&lt; THREAT LEVEL CRITICAL &gt;</span>')
+                .replace(/&lt;\s*REACTION\s*&gt;/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 10px var(--magenta-glow);">&lt; REACTION &gt;</span>')
+                .replace(/&lt;\s*ANALYSIS_STREAMING\s*&gt;/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 10px var(--blue-glow);">&lt; ANALYSIS STREAMING &gt;</span>')
+                .replace(/&lt;\s*CRITICAL_DECISION\s*&gt;/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);">&lt; CRITICAL DECISION &gt;</span>')
+                .replace(/&lt;\s*TIMELINE_STREAM\s*&gt;/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 10px var(--magenta-glow);">&lt; TIMELINE STREAM &gt;</span>')
+                .replace(/코어-K:/g, '<span style="color: #ffffff; font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.15rem;">코어-K:</span>')
+                .replace(/마이스터 K:/g, '<span style="color: var(--gold); font-weight: bold; text-shadow: 0 0 8px var(--gold-glow); font-size: 1.15rem;">마이스터 K:</span>')
+                .replace(/에이전트 레드:/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 8px rgba(255, 0, 60, 0.6); font-size: 1.15rem;">에이전트 레드:</span>')
+                .replace(/린:/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 8px var(--magenta-glow); font-size: 1.15rem;">린:</span>')
+                .replace(/오라클 시스템:/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.15rem;">오라클 시스템:</span>');
+        }
+
+        /* --- [신규 기능] 태그-안전형 비파괴 타자기 엔진 --- */
+        function typeHTML(htmlString, element, speed, callback) {
+            let currentLength = 0;
+            element.innerHTML = "";
+            
+            function step() {
+                if (currentLength >= htmlString.length) {
+                    if (callback) callback();
+                    return;
+                }
+                
+                // HTML 태그(<...>) 검출 시 통째로 한 번에 처리하여 렌더링 손상 방지
+                if (htmlString[currentLength] === '<') {
+                    let tagEnd = htmlString.indexOf('>', currentLength);
+                    if (tagEnd !== -1) {
+                        currentLength = tagEnd + 1;
+                    } else {
+                        currentLength++;
+                    }
+                } else {
+                    currentLength++;
+                }
+                
+                element.innerHTML = htmlString.substring(0, currentLength);
+                element.scrollTop = element.scrollHeight;
+                setTimeout(step, speed);
+            }
+            step();
+        }
+
         function renderScene(key) {
-            if(key.startsWith("END")) return showEnding(key);
+            if (key.startsWith("END")) return showEnding(key);
             const s = scenarios[key];
-            if(s.onEnter) s.onEnter();
+            if (s.onEnter) s.onEnter();
             
             const imgElement = document.getElementById('main-image');
             imgElement.style.opacity = '0';
@@ -578,60 +680,45 @@
 
             document.getElementById('intel-loc').innerText = s.loc;
             document.getElementById('intel-threat').innerText = s.threat || "NONE";
-
             document.getElementById('loc-display').innerText = s.loc;
             document.getElementById('scene-tag').innerHTML = "<span></span>SECTOR: " + s.id;
             
-            const diag = document.getElementById('main-dialogue');
+            const sysTarget = document.getElementById('system-diagnostic');
+            const diagTarget = document.getElementById('main-dialogue');
             const choiceBox = document.getElementById('choice-area');
-            diag.textContent = ""; choiceBox.innerHTML = "";
-            let i = 0;
-            const timer = setInterval(() => {
-                if(s.text[i]) { 
-                    i++;
-                    let currentText = s.text.substring(0, i);
-                    
-                    let formattedText = currentText
-                        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-                        .replace(/&lt;\s*SYSTEM\s*&gt;/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 10px var(--blue-glow);">&lt; SYSTEM &gt;</span>')
-                        .replace(/&lt;\s*STATUS\s*:\s*LOW_BATTERY\s*&gt;/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);">&lt; STATUS : LOW_BATTERY &gt;</span>')
-                        .replace(/&lt;\s*DECISION_REQUIRED\s*&gt;/g, '<span style="color: var(--gold); font-weight: bold; text-shadow: 0 0 10px var(--gold-glow);">&lt; DECISION REQUIRED &gt;</span>')
-                        .replace(/&lt;\s*CORE_RESPONSE\s*&gt;/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 10px var(--blue-glow);">&lt; CORE RESPONSE &gt;</span>')
-                        .replace(/&lt;\s*THREAT_LEVEL_CRITICAL\s*&gt;/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);">&lt; THREAT LEVEL CRITICAL &gt;</span>')
-                        .replace(/&lt;\s*REACTION\s*&gt;/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 10px var(--magenta-glow);">&lt; REACTION &gt;</span>')
-                        .replace(/&lt;\s*ANALYSIS_STREAMING\s*&gt;/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 10px var(--blue-glow);">&lt; ANALYSIS STREAMING &gt;</span>')
-                        .replace(/&lt;\s*CRITICAL_DECISION\s*&gt;/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);">&lt; CRITICAL DECISION &gt;</span>')
-                        .replace(/&lt;\s*TIMELINE_STREAM\s*&gt;/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 10px var(--magenta-glow);">&lt; TIMELINE STREAM &gt;</span>')
-                        .replace(/코어-K:/g, '<span style="color: #ffffff; font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.2rem;">코어-K:</span>')
-                        .replace(/마이스터 K:/g, '<span style="color: var(--gold); font-weight: bold; text-shadow: 0 0 8px var(--gold-glow); font-size: 1.2rem;">마이스터 K:</span>')
-                        .replace(/에이전트 레드:/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 8px rgba(255, 0, 60, 0.6); font-size: 1.2rem;">에이전트 레드:</span>')
-                        .replace(/린:/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 8px var(--magenta-glow); font-size: 1.2rem;">린:</span>')
-                        .replace(/오라클 시스템:/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.2rem;">오라클 시스템:</span>');
+            
+            sysTarget.innerHTML = "";
+            diagTarget.innerHTML = "";
+            choiceBox.innerHTML = "";
 
-                    diag.innerHTML = formattedText;
-                    diag.scrollTop = diag.scrollHeight; 
-                }
-                else {
-                    clearInterval(timer);
-                    s.choices.forEach((c, idx) => {
-                        const b = document.createElement('button');
-                        b.className = idx === 0 ? "choice-btn choice-btn-a" : "choice-btn choice-btn-b";
-                        b.innerText = c.text;
-                        b.onclick = () => {
-                            playSynthBeep(520, 0.08);
-                            c.func();
-                            renderScene(c.next);
-                        };
-                        choiceBox.appendChild(b);
-                    });
-                }
-            }, 15);
+            // 텍스트를 시스템 메시지와 대사로 온전히 분리
+            const split = splitText(s.text);
+            const formattedSys = formatCyberText(split.system);
+            const formattedDiag = formatCyberText(split.dialogue);
+
+            // 좌측과 하단에 각각 전송하여 이중 타자기 가동
+            typeHTML(formattedSys, sysTarget, 8); // 시스템 로그는 빠른 속도로 렌더링
+            typeHTML(formattedDiag, diagTarget, 15, () => {
+                // 대사 출력이 완료되면 선택지 렌더링
+                s.choices.forEach((c, idx) => {
+                    const b = document.createElement('button');
+                    b.className = idx === 0 ? "choice-btn choice-btn-a" : "choice-btn choice-btn-b";
+                    b.innerText = c.text;
+                    b.onclick = () => {
+                        playSynthBeep(520, 0.08);
+                        c.func();
+                        renderScene(c.next);
+                    };
+                    choiceBox.appendChild(b);
+                });
+            });
         }
 
         function showEnding(type) {
             const ui = document.getElementById('game-ui');
             const imgElement = document.getElementById('main-image');
             const diag = document.getElementById('main-dialogue');
+            const sysTarget = document.getElementById('system-diagnostic');
             const choiceBox = document.getElementById('choice-area');
             const sceneTag = document.getElementById('scene-tag');
             
@@ -644,6 +731,8 @@
             playSynthBeep(440, 0.3);
             setTimeout(() => playSynthBeep(554, 0.3), 200);
             setTimeout(() => playSynthBeep(659, 0.5), 400);
+
+            sysTarget.innerHTML = `<span style="color: var(--blue); font-weight: bold;">[SYSTEM_STATUS: RESOLUTION_COMPLETED]</span><br>모든 임무 시퀀스 최종 정렬 승인. 전뇌 하드웨어 동기화 연산 완료.`;
 
             setTimeout(() => { diag.scrollTop = 0; }, 100);
 
