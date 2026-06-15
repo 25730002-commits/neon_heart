@@ -9,7 +9,7 @@
 
         /* --- [테마] 블루 & 퍼플 네온 변수 --- */
         :root {
-            --bg-deep: #03030f;       
+            --bg-deep: #050515;       
             --gold: #ffcc00;
             --gold-glow: rgba(255, 204, 0, 0.4);
             --gold-bright: #fff2b2;
@@ -73,7 +73,7 @@
 
         #title-image-container {
             width: 100%; max-width: 900px; 
-            height: 450px;                 
+            height: 480px;                 
             border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 4px; overflow: hidden;
             background: #020208; position: relative;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
@@ -136,7 +136,7 @@
         .stat-val { font-family: 'Fira Code'; font-size: 12px; color: var(--white); font-weight: bold; }
 
         aside { 
-            padding: 15px 20px; background: rgba(5, 5, 21, 0.65); 
+            padding: 20px; background: rgba(5, 5, 21, 0.65); 
             border-left: 1px solid var(--border); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: relative;
             overflow: hidden; gap: 15px;
@@ -144,9 +144,9 @@
         aside::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--grad); opacity: 0.3; }
 
         .log-box { flex: 1; overflow-y: auto; font-family: 'Fira Code'; font-size: 11px; color: #8fa0b5; }
-        .log-item { margin-bottom: 8px; padding: 5px; border-left: 2px solid var(--blue); background: rgba(0, 229, 255, 0.02); }
+        .log-item { margin-bottom: 10px; padding: 6px; border-left: 2px solid var(--blue); background: rgba(0, 229, 255, 0.02); }
 
-        /* --- [추가] 좌측 헥사 코드 스트림 위젯 --- */
+        /* --- [위젯] 좌측 헥사 코드 스트림 위젯 --- */
         .hex-stream-box {
             height: 90px; border: 1px solid rgba(189, 0, 255, 0.15);
             background: rgba(0, 0, 0, 0.4); border-radius: 4px;
@@ -162,6 +162,7 @@
         main::before { content: '['; position: absolute; left: 20px; top: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
         main::after { content: ']'; position: absolute; right: 20px; bottom: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
 
+        /* [Visual 영역] 이미지 프레임 */
         #visual-frame {
             width: 95%; max-width: 1100px; 
             height: 100%; max-height: 520px; 
@@ -178,7 +179,7 @@
 
         #main-image { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease; }
 
-        /* --- [추가] 우측 스캐닝 레이더 그리드 위젯 --- */
+        /* --- [위젯] 우측 스캐닝 레이더 그리드 위젯 --- */
         .radar-widget {
             height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center;
             border: 1px solid rgba(0, 229, 255, 0.15); background: rgba(0,0,0,0.4); border-radius: 4px; padding: 10px;
@@ -206,7 +207,7 @@
         @keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes target-pulse { from { opacity: 0.3; } to { opacity: 1; } }
 
-        /* --- [추가] 우측 실시간 타겟 리스트 위젯 --- */
+        /* --- [위젯] 우측 실시간 타겟 리스트 위젯 --- */
         .target-intel-box {
             flex: 1; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0,0,0,0.2);
             border-radius: 4px; padding: 12px; font-family: 'Fira Code', monospace; font-size: 11px;
@@ -215,7 +216,7 @@
         .intel-row { display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.03); padding-bottom: 4px; }
         .intel-val { color: var(--blue); font-weight: bold; }
 
-        /* --- [추가] 우측 실시간 심장 주파수 Wave 위젯 --- */
+        /* --- [위젯] 우측 실시간 심장 주파수 Wave 위젯 --- */
         .ekg-widget {
             height: 60px; border: 1px solid rgba(0, 229, 255, 0.15); background: rgba(0,0,0,0.4);
             border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 5px;
@@ -243,18 +244,59 @@
             white-space: pre-wrap; word-break: keep-all;
         }
         
+        /* --- [수정] 이중 색상 선택지 버튼 스타일 (SYNC 블루 / GHOST 퍼플) --- */
         .choices { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+        
         .choice-btn { 
-            background: rgba(0, 229, 255, 0.03); border: 1px solid rgba(0, 229, 255, 0.2); color: #a9b7c7;
+            border-radius: 4px; position: relative;
             padding: 12px 25px; text-align: left; font-size: 14px; cursor: pointer; transition: 0.3s;
-            font-family: 'Noto Sans KR'; border-radius: 4px; position: relative;
+            font-family: 'Noto Sans KR';
         }
-        .choice-btn:hover { 
-            background: rgba(189, 0, 255, 0.1); color: var(--blue); border-color: var(--blue); 
-            padding-left: 45px; box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+        
+        /* A타입 선택지 (SYNC 계열) - 일렉트릭 블루 네온 */
+        .choice-btn-a {
+            background: rgba(0, 229, 255, 0.03); 
+            border: 1px solid rgba(0, 229, 255, 0.2); 
+            color: #a9e0f5;
         }
-        .choice-btn::before { content: '>'; position: absolute; left: 15px; opacity: 0; transition: 0.4s; color: var(--blue); }
-        .choice-btn:hover::before { opacity: 1; left: 20px; }
+        .choice-btn-a:hover { 
+            background: rgba(0, 229, 255, 0.08); 
+            color: var(--blue); 
+            border-color: var(--blue); 
+            padding-left: 45px; 
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.3), inset 0 0 15px rgba(0, 229, 255, 0.1);
+        }
+        .choice-btn-a::before { content: '◆'; position: absolute; left: 15px; opacity: 0; transition: 0.3s; color: var(--blue); font-size: 10px; }
+        .choice-btn-a:hover::before { opacity: 1; left: 20px; }
+
+        /* B타입 선택지 (GHOST 계열) - 네온 보라/마젠타 */
+        .choice-btn-b {
+            background: rgba(189, 0, 255, 0.03); 
+            border: 1px solid rgba(189, 0, 255, 0.2); 
+            color: #f0c2ff;
+        }
+        .choice-btn-b:hover { 
+            background: rgba(189, 0, 255, 0.08); 
+            color: #e599ff; 
+            border-color: var(--magenta); 
+            padding-left: 45px; 
+            box-shadow: 0 0 25px rgba(189, 0, 255, 0.3), inset 0 0 15px rgba(189, 0, 255, 0.1);
+        }
+        .choice-btn-b::before { content: '◇'; position: absolute; left: 15px; opacity: 0; transition: 0.3s; color: var(--magenta); font-size: 10px; }
+        .choice-btn-b:hover::before { opacity: 1; left: 20px; }
+
+        /* 시스템 리부트 버튼 전용 (황금빛 테마) */
+        .choice-btn-reboot {
+            background: rgba(255, 204, 0, 0.03);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            color: var(--gold);
+        }
+        .choice-btn-reboot:hover {
+            background: rgba(255, 204, 0, 0.1);
+            color: #fff;
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+        }
 
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
         @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
@@ -323,7 +365,7 @@
 
         <!-- 좌측 패널 (메모리 아카이브 + 헥사 코드 스트림) -->
         <aside>
-            <div class="stat-label" style="color: var(--gold); font-weight: bold;">[ MEMORY_LOG_STREAM ]</div>
+            <div class="stat-label" style="color: var(--gold); font-weight: bold;">[ SYSTEM_MEMORY_LOG ]</div>
             <div id="log-list" class="log-box"></div>
             
             <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 10px;">[ COGNITIVE_HEX_DUMP ]</div>
@@ -400,7 +442,7 @@
         }
         window.addEventListener('resize', initP); initP(); animP();
 
-        // --- [추가] 헥사 코드 스트림 생성기 ---
+        // --- 헥사 코드 스트림 생성기 ---
         const hexStream = document.getElementById('hex-stream');
         function generateHexDump() {
             let dump = '';
@@ -414,7 +456,7 @@
         }
         setInterval(generateHexDump, 2000); generateHexDump();
 
-        // --- [추가] Web Audio API를 활용한 효과음 생성 엔진 ---
+        // --- Web Audio API를 활용한 효과음 생성 엔진 ---
         let audioCtx;
         function getAudioContext() {
             if (!audioCtx) {
@@ -464,13 +506,19 @@
             "S1": { 
                 id: "S1", loc: "폐기물 처리장", image: "s1.png", threat: "BATT_CRITICAL",
                 text: "< SYSTEM >\n차가운 빗물이 가동 중단된 금속 표면 위로 쏟아지며 희뿌연 증기를 뿜어냅니다. 녹슨 전선 더미와 파괴된 구형 부품들이 무너지는 소리가 음향 센서에 기록됩니다.\n\n< STATUS : LOW_BATTERY >\n자가 전력 보존 수치 3.12%. 태엽 장치 압박 및 시스템 전면 영구 차단 임박.\n\n코어-K:\n\"전력이... 현저히 부족해.\n 이대로 태엽 심장이 침묵하면, 나는 기억 아카이브조차 기록하지 못한 채 가동을 영영 멈추고 말아...\"\n\n< DECISION_REQUIRED >\n태엽심장인형 코어-K는 0과 1의 생존 회로 사이에서 결단을 내려야 합니다.", 
-                choices: [ { text: "A. 인접 코어 약탈 (SYNC+20, GHOST-10) [기계적 연산 우선]", func: () => update(20, -10, 0), next: "S2" }, { text: "B. 긴급 구조 신호 (GHOST+20, NOISE+5) [태엽 심장의 자아 보존]", func: () => update(0, 20, 5), next: "S2" } ] 
+                choices: [ 
+                    { text: "A. 인접 코어 약탈 (SYNC+20, GHOST-10) [기계적 연산 우선]", func: () => updateStats(20, -10, 0), next: "S2" }, 
+                    { text: "B. 긴급 구조 신호 (GHOST+20, NOISE+5) [태엽 심장의 자아 보존]", func: () => updateStats(0, 20, 5), next: "S2" } 
+                ] 
             },
             "S2": { 
                 id: "S2", loc: "폐기장 외곽", image: "s2.png", threat: "MEISTER_K (MEDIUM)",
                 onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); update(10, 10, 0); } }, 
                 text: "< SYSTEM >\n불투명한 기름 안개와 검은 매연 속에서 비정상적인 동력 기동음이 접근해옵니다. 오라클 감시 통제망 휘하의 추적에 맞서 임시 개조를 이어오던 공방의 '마이스터 K'입니다. 기계 안구가 불빛을 튕겨내며 코어-K의 태엽부를 날카롭게 주시합니다.\n\n마이스터 K:\n\"구형 태엽 파츠들이 무모하게 스프링 장력을 연소시키며 발악하는군.\n 길 잃은 태엽 인형아... 자네는 그 고통스러운 '자아 데이터'를 영원히 지키려는 건가,\n 아니면 편안하게 기계의 영원한 무(無)로 동기화되고 싶은 건가?\"\n\n< CORE_RESPONSE >\n코어-K 내부 엔진은 마이스터의 의안을 마주한 채 태엽이 비정상적으로 헛돌며 연산 오류(Critical Sync Loss)를 연발합니다.", 
-                choices: [ { text: "A. 마이스터와 협력 (GHOST+20, S2A=True) [자아 협정 체결]", func: () => { state.S2A = true; update(0, 20, 0); }, next: "S3" }, { text: "B. 부품만 챙겨 이탈 (SYNC+25, NOISE+10) [단독 탈출 연산]", func: () => update(25, 0, 10), next: "S3" } ] 
+                choices: [ 
+                    { text: "A. 마이스터와 협력 (GHOST+20, S2A=True) [자아 협정 체결]", func: () => { state.S2A = true; updateStats(0, 20, 0); }, next: "S3" }, 
+                    { text: "B. 부품만 챙겨 이탈 (SYNC+25, NOISE+10) [단독 탈출 연산]", func: () => updateStats(25, 0, 10), next: "S3" } 
+                ] 
             },
             "S3": { 
                 id: "S3", loc: "네온 광장", image: "s3.png", threat: "AGENT_RED (CRITICAL)",
@@ -479,35 +527,50 @@
                     if(state.noise >= 20) addLog("WARNING: 축적 간섭(NOISE) 위험 임계 도달 - 드론 추적 분기 진입"); 
                 }, 
                 text: "< SYSTEM >\n빛으로 직조된 홀로그램 장막 너머로 감시자 레드의 붉은 탐지 스캐너가 광장 전체를 날카롭게 도려냅니다. 비명조차 필터링당한 하급 태엽인형들의 노이즈 신호가 지면 아래서 희미하게 스러져갑니다.\n에이전트 레드의 광학 센서가 코어-K의 시리얼 넘버를 잠가버립니다.\n\n에이전트 레드:\n\"비인가 잔존 개체 식별.\n 데이터 정화 프로세스를 강제 수립한다. 저항 행위는 연산 오버헤드만 늘릴 뿐이다.\"\n\n코어-K:\n\"나는 정해진 규격대로 조립된 오라클의 하수인이 아니야...!\n 내 태엽심장은 이 껍데기가 지워지더라도 고유 영역에 고스란히 남아 숨 쉴 것이다...!\"\n\n< THREAT_LEVEL_CRITICAL >\n에이전트 레드의 전자기 살상 무기가 공명을 일으키며 냉각 연기를 방출합니다.", 
-                choices: [ { text: "A. 시스템 위장 침투 (GHOST+15, NOISE-10) [위상 위장막 기동]", func: () => update(0, 15, -10), next: "S4" }, { text: "B. 정면 돌파 강습 (SYNC+20, NOISE+25) [태엽 장치 가동 오버플로우]", func: () => update(20, 0, 25), next: "S4" } ] 
+                choices: [ 
+                    { text: "A. 시스템 위장 침투 (GHOST+15, NOISE-10) [위상 위장막 기동]", func: () => updateStats(0, 15, -10), next: "S4" }, 
+                    { text: "B. 정면 돌파 강습 (SYNC+20, NOISE+25) [태엽 장치 가동 오버플로우]", func: () => updateStats(20, 0, 25), next: "S4" } 
+                ] 
             },
             "S4": { 
                 id: "S4", loc: "마이스터의 공방", image: "s4.png", threat: "OVERLOAD_DANGER",
                 onEnter: () => { if(state.sync < 30) addLog("ALERT: 연산 결핍으로 기계 가동 장치 불능화 감지"); }, 
                 text: "< SYSTEM >\n오라클의 추격을 피하기 위해 기어들어 온 수수께끼의 지하실. 천장엔 버려진 고스트 드로이드들의 태엽 기어들이 무의미하게 명멸하고 있습니다. 마이스터 K는 책상 위의 거대한 '전류 한계 리미터 해제장치'를 가만히 어루만집니다.\n\n마이스터 K:\n\"지금 자네가 보유한 하드웨어 출력 수치로는 타워 최상층의 다중 방화벽 연산을 감당할 수 없네.\n 영혼(Ghost)의 일부를 가차 없이 포맷하고, 기계의 극단적인 연산 강도(Sync)를 받아들이게.\"\n\n< REACTION >\n코어-K의 태엽 심장 판막이 위험 수준으로 기익- 굉음을 내며 흔들립니다. 스스로를 증명하기 위해 자아를 상실하는 길을 택해야 하는가? 전류 해제기의 불쾌한 전자기음이 공방을 메웁니다.", 
-                choices: [ { text: "A. 오버클록 수락 (SYNC+50, GHOST-30) [연산력 극대화]", func: () => update(50, -30, 0), next: "S5" }, { text: "B. 제안 거절 (GHOST+30) [태엽 심장의 영혼 수호]", func: () => update(0, 30, 0), next: "S5" } ] 
+                choices: [ 
+                    { text: "A. 오버클록 수락 (SYNC+50, GHOST-30) [연산력 극대화]", func: () => updateStats(50, -30, 0), next: "S5" }, 
+                    { text: "B. 제안 거절 (GHOST+30) [태엽 심장의 영혼 수호]", func: () => updateStats(0, 30, 0), next: "S5" } 
+                ] 
             },
             "S5": { 
                 id: "S5", loc: "데이터 폭포", image: "s5.png", threat: "FAIRY_INTEGRATOR",
                 onEnter: () => { if(state.ghost >= 50) addLog("SUCCESS: GHOST 신호 적합도 최우수 - 우호 제어 권한 획득"); else addLog("WARN: 보안 인증 파기 - 교전 프로토콜 실행"); }, 
                 text: "< SYSTEM >\n자아 데이터의 소스 코드가 흐르고 넘쳐 폭포를 이루는 딥웹의 경계면.\n빛을 모아 직조한 듯한 딥웹의 지성체 '페어리'가 코어-K의 시스템 깊숙한 일지 로그를 탐지하기 시작합니다.\n\n페어리:\n\"너의 껍데기 아래 가려진 로그 회로망에선, 인간과 동일한 형태의 '자아'가 흐르고 있구나...\n 아니면, 그저 차갑고 영혼 없는, 가공된 철 덩어리에 불과한 걸까? 자네는 스스로를 무엇으로 정의하지?\"\n\n< ANALYSIS_STREAMING >\n페어리의 눈부신 잔향 데이터가 망막 디스플레이를 어지럽힙니다. 태엽심장인형 코어-K는 떨리는 손가락 끝으로 심장부 모듈을 움켜쥡니다.", 
-                choices: [ { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=True) [자아 공명 교감]", func: () => { state.S5A = true; update(0, 20, 0); }, next: "S6" }, { text: "B. 강제 해킹 시도 (SYNC+15, NOISE+30) [무차비한 데이터 강탈]", func: () => update(15, 0, 30), next: "S6" } ] 
+                choices: [ 
+                    { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=True) [자아 공명 교감]", func: () => { updateStats(0, 20, 0); state.S5A = true; }, next: "S6" }, 
+                    { text: "B. 강제 해킹 시도 (SYNC+15, NOISE+30) [무차비한 데이터 강탈]", func: () => updateStats(15, 0, 30), next: "S6" } 
+                ] 
             },
+            "S2_DUPE": {}, 
             "S6": { 
                 id: "S6", loc: "오라클 타워 입구", image: "s6.png", threat: "RIN_CAPTURED",
                 onEnter: () => { if(state.S5A) addLog("DECRYPT: 방화벽 암호 무력화 성공"); if(state.noise >= 70) addLog("CRITICAL: 보안 오버로딩 - 에이전트 레드 전면전 매칭"); }, 
                 text: "< SYSTEM >\n타워 입구를 강제 차단한 철제 크레인 부품들이 무질서하게 삐걱거립니다.\n벽 구석, 기동 중지 상태에 놓인 어린 인형 개체 '린'이 가느다란 전류성 비명을 내지릅니다.\n\n린:\n\"살려주세요... 흐릿하게 연산장치가 깨지고 있어요... 무서워요...\"\n\n코어-K:\n\"(지직거리며) 에너지 잔량 보존 한계점 임박... 하지만...\n 저 작은 비명을 묵살하고 효율만을 계산한다면, 난 그저 정교하게 만들어진 태엽 장난감 시체에 불과해...\"\n\n< CRITICAL_DECISION >\n시스템 경고창이 눈앞에서 수천 개의 전압 손실률을 가혹하게 뿜어냅니다.", 
-                choices: [ { text: "A. 아이 구출(희생) (GHOST+50, SYNC-50) [영혼의 고결함]", func: () => update(-50, 50, 0), next: "S7" }, { text: "B. 임무 우선(무시) (SYNC+20, GHOST-50) [시스템 연산 선택]", func: () => update(20, -50, 0), next: "S7" } ] 
+                choices: [ 
+                    { text: "A. 아이 구출(희생) (GHOST+50, SYNC-50) [영혼의 고결함]", func: () => updateStats(-50, 50, 0), next: "S7" }, 
+                    { text: "B. 임무 우선(무시) (SYNC+20, GHOST-50) [시스템 연산 선택]", func: () => updateStats(20, -50, 0), next: "S7" } 
+                ] 
             },
             "S7": { 
                 id: "S7", loc: "오라클 코어", image: "s7.png", threat: "FINAL_EVALUATION",
                 text: "< SYSTEM >\n마침내 거대한 오라클의 메인 코어가 신성한 제단처럼 웅장한 전류 구동음을 토해내며 회전합니다.\n도시의 모든 네트워크 선들이 태엽인형 코어-K의 신경망 전체를 조여들며 일체감을 형성합니다.\n\n오라클 시스템:\n\"최종 동기화 승인.\n 당신이 이 세계에 남긴 연산 행태와 고스트 조각들을 분석 완료했습니다.\n 이제 정체성을 영구 병합할 순간입니다. 당신의 진짜 이름을 이 은하계에 정의하십시오.\"\n\n< TIMELINE_STREAM >\n코어-K의 연산 모듈 뒤로 마이스터 K의 차가운 눈빛, 페어리의 홀로그램, 그리고 린을 안아 들었던 차가운 기계 의수의 감각과 태엽이 돌아가는 톱니 소리가 파노라마처럼 흘러갑니다.", 
-                choices: [ { text: "A. 자아 데이터 업로드 (GHOST 엔딩) [태엽 심장의 해방]", func: () => {}, next: "END_GHOST" }, { text: "B. SYSTEM 권한 수락 (SYNC 엔딩) [철의 정점 수호자]", func: () => {}, next: "END_SYNC" } ] 
+                choices: [ 
+                    { text: "A. 자아 데이터 업로드 (GHOST 엔딩) [태엽 심장의 해방]", func: () => {}, next: "END_GHOST" }, 
+                    { text: "B. SYSTEM 권한 수락 (SYNC 엔딩) [철의 정점 수호자]", func: () => {}, next: "END_SYNC" } 
+                ] 
             }
         };
 
         function startGame() {
-            // 소리 시작 잠금 해제용 AudioContext 취득
             getAudioContext();
             playSynthBeep(660, 0.15);
             setTimeout(() => playSynthBeep(880, 0.2), 150);
@@ -517,12 +580,12 @@
                 document.getElementById('title-screen').style.display = 'none';
                 const ui = document.getElementById('game-ui');
                 ui.style.visibility = 'visible'; ui.style.opacity = '1';
-                update(0,0,0); renderScene("S1");
+                updateStats(0,0,0); renderScene("S1");
                 addLog("LOGIN: 25730002 윤수영");
             }, 800);
         }
 
-        function update(s, g, n) {
+        function updateStats(s, g, n) {
             state.sync = Math.max(0, Math.min(100, state.sync + s));
             state.ghost = Math.max(0, Math.min(100, state.ghost + g));
             state.noise = Math.max(0, Math.min(100, state.noise + n));
@@ -560,7 +623,7 @@
                 if(s.image) { imgElement.src = s.image; imgElement.style.opacity = '1'; }
             }, 300);
 
-            // [추가] 실시간 우측 인텔 위젯 데이터 반영
+            // 실시간 우측 인텔 위젯 데이터 반영
             document.getElementById('intel-loc').innerText = s.loc;
             document.getElementById('intel-threat').innerText = s.threat || "NONE";
 
@@ -598,13 +661,15 @@
                 }
                 else {
                     clearInterval(timer);
-                    s.choices.forEach(c => {
+                    s.choices.forEach((c, idx) => {
                         const b = document.createElement('button');
-                        b.className = "choice-btn"; b.innerText = c.text;
-                        b.onclick = () => { 
+                        // [수정] 첫 번째 옵션은 choice-btn-a, 두 번째 옵션은 choice-btn-b 클래스 부여
+                        b.className = idx === 0 ? "choice-btn choice-btn-a" : "choice-btn choice-btn-b";
+                        b.innerText = c.text;
+                        b.onclick = () => {
                             playSynthBeep(520, 0.08); // 클릭 시 기계식 효과음
-                            c.func(); 
-                            renderScene(c.next); 
+                            c.func();
+                            renderScene(c.next);
                         };
                         choiceBox.appendChild(b);
                     });
@@ -620,7 +685,9 @@
             const sceneTag = document.getElementById('scene-tag');
             
             ui.classList.add('ending-active');
-            choiceBox.innerHTML = `<button class="choice-btn" style="border-color: var(--blue); color: var(--blue); text-align:center; font-weight:bold;" onclick="location.reload()">REBOOT PROTOCOL</button>`;
+            
+            // 리부트 버튼 리부트용 황금빛 전용 클래스 매핑
+            choiceBox.innerHTML = `<button class="choice-btn choice-btn-reboot" style="text-align:center; font-weight:bold; width:100%;" onclick="location.reload()">REBOOT PROTOCOL</button>`;
 
             sceneTag.style.color = "var(--blue)";
             sceneTag.innerText = "SECTOR: FINAL_PROTOCOL";
