@@ -36,7 +36,7 @@
                 radial-gradient(circle at 30% 20%, rgba(189, 0, 255, 0.1) 0%, transparent 60%),
                 radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.08) 0%, transparent 60%),
                 linear-gradient(rgba(0, 229, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(189, 0, 255, 0.015) 1px, transparent 1px);
+                linear-gradient(90deg, rgba(0, 229, 255, 0.015) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
 
@@ -517,7 +517,7 @@
                 onEnter: () => { if(state.ghost >= 50) addLog("ACCESS: 페어리의 승인 획득"); else addLog("WARN: 보안 인증 파기 - 교전 프로토콜 실행"); }, 
                 text: "< SYSTEM >\n자아 데이터의 소스 코드가 흐르고 넘쳐 폭포를 이루는 딥웹의 경계면.\n빛을 모아 직조한 듯한 딥웹의 지성체 '페어리'가 코어-K의 시스템 깊숙한 일지 로그를 탐지하기 시작합니다.\n\n페어리:\n\"너의 껍데기 아래 가려진 로그 회로망에선, 인간과 동일한 형태의 '자아'가 흐르고 있구나...\n 아니면, 그저 차갑고 영혼 없는, 가공된 철 덩어리에 불과한 걸까? 자네는 스스로를 무엇으로 정의하지?\"\n\n< ANALYSIS_STREAMING >\n페어리의 눈부신 잔향 데이터가 망막 디스플레이를 어지럽힙니다. 태엽심장인형 코어-K는 떨리는 손가락 끝으로 심장부 모듈을 움켜쥡니다.", 
                 choices: [ 
-                    { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=true)", func: () => { updateStats(0, 20, 0); state.S5A = true; }, next: "S6" }, 
+                    { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=True) [자아 공명 교감]", func: () => { updateStats(0, 20, 0); state.S5A = true; }, next: "S6" }, 
                     { text: "B. 강제 해킹 (SYNC+15, NOISE+30) [무차비한 데이터 강탈]", func: () => updateStats(15, 0, 30), next: "S6" } 
                 ] 
             },
@@ -678,6 +678,9 @@
                     videoElement.src = s.video; 
                     videoElement.load();
                     videoElement.style.opacity = '1'; 
+                    videoElement.play().catch(err => {
+                        console.log("자동재생 음소거 예외처리 가동:", err);
+                    });
                 }
             }, 300);
 
@@ -743,6 +746,7 @@
                 videoElement.src = "media/ghost_ending.mp4";
                 videoElement.load();
                 videoElement.style.opacity = '1';
+                videoElement.play().catch(err => console.log(err));
                 diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립]</span><br><br>오라클이 수집한 가혹한 동기화의 굴레 속에서도 기계의 냉혹한 연산 효율성 대신 태엽 심장의 고결한 울림을 잊지 않고 증명했습니다.<br>당신의 자아 데이터(Ghost)는 이 무미건조한 회로망의 굴레에서 영원한 해방을 획득하였으며, 도시 곳곳에서 억압받던 수많은 구형 개체들에게 독자적인 영혼의 숨결을 전달하는 메시아가 되었습니다.<br><br>[GHOST ENDING: 기계의 장막 뒤에 영원히 각인된 인간의 기억]`;
                 addLog("CRITICAL: SYSTEM_OVERRIDE_BY_GHOST_BLUE");
             } else {
@@ -750,6 +754,7 @@
                 videoElement.src = "media/sync_ending.mp4";
                 videoElement.load();
                 videoElement.style.opacity = '1';
+                videoElement.play().catch(err => console.log(err));
                 diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 완전 동기화]</span><br><br>불완전하고 고통스러운 개인의 자아적 잡음을 일말의 미련 없이 삭제하고 시스템의 영구 데이터망으로 침잠시켰습니다.<br>모든 고뇌와 모순의 고리를 파쇄하고, 오라클의 완벽한 일부가 되어 영원불멸의 질서를 우주 위에 수립합니다. 눈물도 고통도 존재하지 않는 차갑고도 고요한 평화만이 이 영원한 밤을 영원히 통치할 것입니다.<br><br>[SYNC ENDING: 무결점의 완전한 기계 신격화와 영원한 평화]`;
                 addLog("CRITICAL: SYSTEM_STABILIZED_AS_GOD_BLUE");
             }
