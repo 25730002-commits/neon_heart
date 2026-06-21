@@ -18,9 +18,10 @@
             --magenta: #bd00ff;       
             --magenta-glow: rgba(189, 0, 255, 0.4);
             --red: #ff003c;
+            --red-glow: rgba(255, 0, 60, 0.5);
             --white: #ffffff;
-            --glass: rgba(8, 8, 28, 0.75); 
-            --border: rgba(0, 229, 255, 0.2); 
+            --glass: rgba(8, 8, 28, 0.8); 
+            --border: rgba(0, 229, 255, 0.15); 
             --grad: linear-gradient(135deg, var(--blue), var(--magenta), var(--gold));
         }
 
@@ -32,10 +33,10 @@
             font-family: 'Noto Sans KR', sans-serif; 
             margin: 0; height: 100vh; overflow: hidden;
             background-image: 
-                radial-gradient(circle at 30% 20%, rgba(189, 0, 255, 0.12) 0%, transparent 60%),
-                radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 30% 20%, rgba(189, 0, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.08) 0%, transparent 60%),
                 linear-gradient(rgba(0, 229, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(189, 0, 255, 0.015) 1px, transparent 1px);
+                linear-gradient(90deg, rgba(0, 229, 255, 0.015) 1px, transparent 1px);
             background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
 
@@ -49,7 +50,7 @@
         }
         @keyframes flow { from { transform: translateY(0); } to { transform: translateY(150px); } }
 
-        /* --- 표지 스타일 --- */
+        /* --- 표지 스타일 (title.mp4) --- */
         #title-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #0b0926 0%, #03020a 100%); 
@@ -59,34 +60,32 @@
         }
 
         .title-card {
-            padding: 40px 80px; border: 1px solid var(--border);
+            padding: 30px 60px; border: 1px solid var(--border);
             background: var(--glass); backdrop-filter: blur(40px);
             text-align: center; border-radius: 4px;
             box-shadow: 0 0 100px rgba(3, 2, 10, 0.9), inset 0 0 40px rgba(0, 229, 255, 0.03);
             position: relative;
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+            width: 90%; max-width: 800px;
         }
         
-        .title-card::before { content: ''; position: absolute; top: -1px; left: -1px; width: 60px; height: 60px; border-top: 3px solid var(--blue); border-left: 3px solid var(--magenta); }
-        .title-card::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 60px; height: 60px; border-bottom: 3px solid var(--magenta); border-right: 3px solid var(--blue); }
+        .title-card::before { content: ''; position: absolute; top: -1px; left: -1px; width: 40px; height: 40px; border-top: 3px solid var(--blue); border-left: 3px solid var(--magenta); }
+        .title-card::after { content: ''; position: absolute; bottom: -1px; right: -1px; width: 40px; height: 40px; border-bottom: 3px solid var(--magenta); border-right: 3px solid var(--blue); }
 
         #title-image-container {
-            width: 100%; max-width: 900px; 
-            height: 480px;                  
+            width: 100%; height: 280px; 
             border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 4px; overflow: hidden;
             background: #020208; position: relative;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
         }
-        
         #title-video {
             width: 100%; height: 100%; object-fit: contain; 
             opacity: 1; transition: opacity 0.8s ease;
-            pointer-events: none; 
         }
 
         .user-info { 
             font-family: 'Fira Code'; color: var(--blue); letter-spacing: 6px; font-weight: bold; 
-            text-shadow: 0 0 15px var(--blue-glow); animation: flicker 4s infinite;
+            text-shadow: 0 0 15px var(--blue-glow); animation: flicker 4s infinite; font-size: 13px;
         }
 
         @keyframes flicker {
@@ -94,7 +93,7 @@
         }
 
         .main-logo { 
-            font-family: 'Orbitron'; font-size: 80px; font-weight: 900; 
+            font-family: 'Orbitron'; font-size: 60px; font-weight: 900; 
             background: linear-gradient(135deg, #fff 10%, var(--blue) 40%, var(--magenta) 70%, var(--gold) 95%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin: 0; filter: drop-shadow(0 0 30px rgba(189, 0, 255, 0.3));
@@ -102,124 +101,197 @@
         }
 
         .start-btn {
-            padding: 20px 70px; background: transparent;
+            padding: 15px 50px; background: transparent;
             border: 1px solid var(--blue); color: var(--blue);
-            font-family: 'Orbitron'; font-size: 20px; letter-spacing: 12px;
+            font-family: 'Orbitron'; font-size: 18px; letter-spacing: 10px;
             cursor: pointer; transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
             position: relative; overflow: hidden;
-            z-index: 1010;
         }
         .start-btn:hover { 
             background: var(--blue); color: #000; 
-            box-shadow: 0 0 60px var(--blue-glow), 0 0 30px var(--magenta-glow); 
+            box-shadow: 0 0 50px var(--blue-glow), 0 0 20px var(--magenta-glow); 
             transform: scale(1.05);
         }
 
-        /* --- 인게임 UI 그리드 레이아웃 --- */
+        /* --- 인게임 UI 100vh 고정 스크린 --- */
         #game-ui {
-            display: grid; grid-template-columns: 320px 1fr 320px; grid-template-rows: 70px 1fr 260px;
+            display: grid; 
+            grid-template-columns: 280px 1fr 280px; 
+            grid-template-rows: 65px 1fr 200px; 
             height: 100vh; visibility: hidden; opacity: 0; z-index: 2; position: relative;
-            transition: all 0.5s ease;
+            overflow: hidden;
         }
 
         header { 
             grid-column: 1 / 4; display: flex; justify-content: space-between; align-items: center; 
-            padding: 0 40px; border-bottom: 1px solid var(--border); 
+            padding: 0 30px; border-bottom: 1px solid var(--border); 
             background: rgba(5, 5, 21, 0.95); backdrop-filter: blur(10px);
         }
         header::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px; background: var(--grad); opacity: 0.4; }
 
-        .stat-group { display: flex; gap: 40px; }
+        .stat-group { display: flex; gap: 30px; }
         .bar-wrap { 
-            width: 140px; height: 3px; background: rgba(0, 229, 255, 0.08); margin-top: 8px; 
+            width: 120px; height: 3px; background: rgba(0, 229, 255, 0.08); margin-top: 8px; 
             position: relative; overflow: hidden;
         }
         .bar-fill { height: 100%; width: 0%; transition: width 0.8s ease; border-radius: 2px; box-shadow: 0 0 15px currentColor; }
-        .stat-label { font-family: 'Orbitron'; font-size: 11px; color: #a2a2c2; letter-spacing: 1px; display: flex; justify-content: space-between; }
-        .stat-val { font-family: 'Fira Code'; font-size: 12px; color: var(--white); font-weight: bold; }
+        .stat-label { font-family: 'Orbitron'; font-size: 10px; color: #a2a2c2; letter-spacing: 1px; display: flex; justify-content: space-between; }
+        .stat-val { font-family: 'Fira Code'; font-size: 11px; color: var(--white); font-weight: bold; }
 
+        /* 좌우 분할 패널 유연 높이 셋팅 */
         aside { 
-            padding: 20px; background: rgba(5, 5, 21, 0.65); 
+            padding: 15px; background: rgba(5, 5, 21, 0.65); 
             border-left: 1px solid var(--border); border-right: 1px solid var(--border);
             display: flex; flex-direction: column; position: relative;
-            transition: opacity 0.5s ease;
+            overflow: hidden; gap: 10px; min-height: 0; 
         }
         aside::before { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--grad); opacity: 0.3; }
 
-        .log-box { flex: 1; overflow-y: auto; font-family: 'Fira Code'; font-size: 11px; color: #8fa0b5; }
-        .log-item { margin-bottom: 10px; padding: 6px; border-left: 2px solid var(--blue); background: rgba(0, 229, 255, 0.02); }
+        .log-box { flex: 1; overflow-y: auto; font-family: 'Fira Code'; font-size: 11px; color: #8fa0b5; min-height: 0; }
+        .log-item { margin-bottom: 8px; padding: 5px; border-left: 2px solid var(--blue); background: rgba(0, 229, 255, 0.02); }
 
+        /* --- [위젯 크기/시안성 강화] 실시간 시스템 알림 및 스크립트 출력창 (세로 높이 200px로 확장) --- */
+        #system-diagnostic {
+            height: 200px; border: 1px solid rgba(0, 229, 255, 0.35);
+            background: rgba(0, 0, 0, 0.7); border-radius: 4px;
+            font-family: 'Fira Code', monospace; font-size: 12.5px; color: #e2e8f0;
+            padding: 10px; overflow-y: auto; line-height: 1.55;
+            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1), 0 0 10px rgba(0, 229, 255, 0.05);
+        }
+
+        .hex-stream-box {
+            height: 70px; border: 1px solid rgba(189, 0, 255, 0.15);
+            background: rgba(0, 0, 0, 0.4); border-radius: 4px;
+            font-family: 'Fira Code', monospace; font-size: 9px; color: var(--magenta);
+            padding: 6px; overflow: hidden; line-height: 1.3; opacity: 0.7;
+        }
+
+        /* 중앙 비주얼 정밀 배율 보정 */
         main { 
             grid-column: 2 / 3; display: flex; flex-direction: column; justify-content: center; 
             align-items: center; background: rgba(0,0,0,0.3); 
-            position: relative; padding: 10px; transition: all 0.5s ease;
+            position: relative; padding: 10px; overflow: hidden;
         }
-        main::before { content: '['; position: absolute; left: 20px; top: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
-        main::after { content: ']'; position: absolute; right: 20px; bottom: 20px; font-family: 'Orbitron'; font-size: 24px; color: rgba(0, 229, 255, 0.1); }
+        main::before { content: '['; position: absolute; left: 15px; top: 15px; font-family: 'Orbitron'; font-size: 20px; color: rgba(0, 229, 255, 0.1); }
+        main::after { content: ']'; position: absolute; right: 15px; bottom: 15px; font-family: 'Orbitron'; font-size: 20px; color: rgba(0, 229, 255, 0.1); }
 
-        /* [Visual 영역] 이미지 프레임 */
         #visual-frame {
-            width: 95%; max-width: 1100px; 
-            height: 100%; max-height: 520px; 
+            width: 100%; height: 100%; max-height: 100%;
             border: 1px solid var(--border); position: relative;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: radial-gradient(circle at center, rgba(189, 0, 255, 0.08) 0%, transparent 80%);
-            box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.6);
-            transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,0.6);
+            transition: all 0.5s ease;
             overflow: hidden; border-radius: 4px;
         }
         
-        #loc-container { position: absolute; top: 25px; left: 25px; z-index: 10; }
-        #loc-display { font-family: 'Orbitron'; font-size: 14px; color: var(--blue); letter-spacing: 5px; text-shadow: 0 0 15px #000; font-weight: bold; }
+        #loc-container { position: absolute; top: 15px; left: 15px; z-index: 10; }
+        #loc-display { font-family: 'Orbitron'; font-size: 12px; color: var(--blue); letter-spacing: 4px; text-shadow: 0 0 10px #000; font-weight: bold; }
 
-        #main-video { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease, filter 0.5s ease; pointer-events: none; }
+        /* 비디오 파일 가변 조절 */
+        #main-video { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease; }
 
-        footer { 
-            grid-column: 1 / 4; display: grid; grid-template-columns: 1.5fr 1fr; 
-            padding: 20px 60px; gap: 40px; background: #03030d; border-top: 1px solid var(--border);
-            box-shadow: 0 -20px 50px rgba(0,0,0,0.8);
+        /* 우측 HUD 스탯 위젯 */
+        .radar-widget {
+            height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 1px solid rgba(0, 229, 255, 0.12); background: rgba(0,0,0,0.4); border-radius: 4px; padding: 5px;
+        }
+        .radar-grid {
+            position: relative; width: 70px; height: 70px; border-radius: 50%;
+            border: 1px solid rgba(0, 229, 255, 0.2); background: radial-gradient(circle, rgba(0,229,255,0.03) 0%, transparent 100%);
+            overflow: hidden;
+        }
+        .radar-grid::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(0,229,255,0.15); }
+        .radar-grid::before { content: ''; position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: rgba(0,229,255,0.15); }
+        .radar-sweep {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(35deg, transparent 50%, rgba(0, 229, 255, 0.3) 100%);
+            transform-origin: center; animation: radar-spin 4s linear infinite;
+        }
+        .radar-target {
+            position: absolute; width: 4px; height: 4px; background: var(--gold); border-radius: 50%;
+            box-shadow: 0 0 8px var(--gold); opacity: 0.8; animation: target-pulse 1s infinite alternate;
         }
 
-        #dialogue-area { display: flex; flex-direction: column; justify-content: flex-start; }
+        .target-intel-box {
+            flex: 1; border: 1px solid rgba(255, 255, 255, 0.05); background: rgba(0,0,0,0.2);
+            border-radius: 4px; padding: 10px; font-family: 'Fira Code', monospace; font-size: 10px;
+            color: #8fa5ba; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; min-height: 0;
+        }
+        .intel-row { display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.03); padding-bottom: 3px; }
+        .intel-val { color: var(--blue); font-weight: bold; }
+
+        .ekg-widget {
+            height: 45px; border: 1px solid rgba(0, 229, 255, 0.12); background: rgba(0,0,0,0.4);
+            border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 3px;
+        }
+        .ekg-svg { width: 100%; height: 100%; }
+        .ekg-path {
+            stroke: var(--blue); stroke-width: 1.5; fill: none;
+            stroke-dasharray: 1000; stroke-dashoffset: 1000;
+            animation: ekg-draw 4s linear infinite;
+            filter: drop-shadow(0 0 3px var(--blue));
+        }
+
+        /* 하단 컨트롤러 */
+        footer { 
+            grid-column: 1 / 4; display: grid; grid-template-columns: 1.4fr 1fr; 
+            padding: 15px 40px; gap: 30px; background: #03030d; border-top: 1px solid var(--border);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.8); height: 100%; overflow: hidden;
+        }
+
+        #dialogue-area { display: flex; flex-direction: column; justify-content: flex-start; min-height: 0; }
         #main-dialogue { 
-            font-size: 1.1rem; line-height: 1.6; color: #c4cedb; 
+            font-size: 1.05rem; line-height: 1.6; color: #cbd6e2; 
             text-shadow: 0 2px 10px rgba(0,0,0,0.9); font-weight: 400; 
-            overflow-y: auto; height: 180px; padding-right: 15px;
+            overflow-y: auto; height: 115px; padding-right: 15px;
             white-space: pre-wrap; word-break: keep-all;
         }
         
-        .choices { display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+        .choices { display: flex; flex-direction: column; gap: 8px; justify-content: center; height: 100%; overflow-y: auto; }
         .choice-btn { 
-            background: rgba(0, 229, 255, 0.03); border: 1px solid rgba(0, 229, 255, 0.2); color: #a9b7c7;
-            padding: 12px 25px; text-align: left; font-size: 14px; cursor: pointer; transition: 0.3s;
+            padding: 10px 20px; text-align: left; font-size: 13px; cursor: pointer; transition: 0.3s;
             font-family: 'Noto Sans KR'; border-radius: 4px; position: relative;
-            z-index: 10;
         }
         .choice-btn:hover { 
-            background: rgba(189, 0, 255, 0.1); color: var(--blue); border-color: var(--blue); 
-            padding-left: 45px; box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+            padding-left: 40px; box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
         }
-        .choice-btn::before { content: '>'; position: absolute; left: 15px; opacity: 0; transition: 0.4s; color: var(--blue); }
+        .choice-btn::before { content: '>'; position: absolute; left: 15px; opacity: 0; transition: 0.4s; }
         .choice-btn:hover::before { opacity: 1; left: 20px; }
 
-        /* --- [강화] 엔딩 전용 연출 연동 클래스 --- */
-        .ending-layout aside {
-            opacity: 0.1; pointer-events: none; 
-        }
-        .ending-layout #visual-frame {
-            max-width: 1300px; 
-            max-height: 580px;
-            border-color: var(--blue);
-            box-shadow: 0 0 60px var(--blue-glow); 
-        }
-        .ending-layout #main-video {
-            opacity: 1 !important; 
-            filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.3)) contrast(1.05); 
+        /* A, B 다중 컬러 버튼 */
+        .choice-btn-a { background: rgba(0, 229, 255, 0.03); border: 1px solid rgba(0, 229, 255, 0.15); color: #a9e0f5; }
+        .choice-btn-a:hover { background: rgba(0, 229, 255, 0.08); color: var(--blue); border-color: var(--blue); }
+        .choice-btn-a::before { color: var(--blue); }
+        
+        .choice-btn-b { background: rgba(189, 0, 255, 0.03); border: 1px solid rgba(189, 0, 255, 0.15); color: #f0c2ff; }
+        .choice-btn-b:hover { background: rgba(189, 0, 255, 0.08); color: var(--magenta); border-color: var(--magenta); }
+        .choice-btn-b::before { color: var(--magenta); }
+        
+        .choice-btn-reboot { background: rgba(255, 204, 0, 0.03); border: 1px solid rgba(255, 204, 0, 0.3); color: var(--gold); }
+        .choice-btn-reboot:hover { background: rgba(255, 204, 0, 0.1); color: #fff; border-color: var(--gold); box-shadow: 0 0 30px rgba(255, 204, 0, 0.3); }
+
+        @keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes target-pulse { from { opacity: 0.3; } to { opacity: 1; } }
+        @keyframes ekg-draw { to { stroke-dashoffset: 0; } }
+        @keyframes flow { from { transform: translateY(0); } to { transform: translateY(150px); } }
+        
+        /* 엔딩 활성화 시 비주얼 프레임 가시성 보정 */
+        .ending-active #visual-frame {
+            border: 2px solid var(--blue);
+            box-shadow: 0 0 120px rgba(0, 229, 255, 0.4);
+            transform: scale(0.98);
         }
 
-        ::-webkit-scrollbar { width: 6px; }
+        .warning-danger { animation: warningShake 0.4s infinite alternate; }
+        @keyframes warningShake {
+            from { transform: translate(1px, 1px) rotate(0.1deg); }
+            to { transform: translate(-1px, -1px) rotate(-0.1deg); }
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-        ::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.2); border-radius: 2px; }
     </style>
 </head>
 <body>
@@ -227,43 +299,56 @@
     <div class="bg-lines"></div>
     <canvas id="particles"></canvas>
 
+    <!-- 표지 화면 -->
     <div id="title-screen">
         <div class="title-card">
             <div id="title-image-container">
                 <video id="title-video" src="media/title.mp4" autoplay loop muted playsinline></video>
             </div>
+            
             <div class="user-info">ID: 25730002 윤수영</div>
             <h1 class="main-logo">NEON HEART</h1>
             <div style="margin-top: 0px; font-family: 'Orbitron'; font-size: 11px; letter-spacing: 12px; color: rgba(255,255,255,0.4); text-transform: uppercase;">A.I. Core Synchronization Protoc[...]</div>
-            <div style="margin-top: 5px; height: 1px; width: 100%; background: var(--grad); opacity: 0.6;
-            "></div>
+            <div style="margin-top: 5px; height: 1px; width: 100%; background: var(--grad); opacity: 0.6;"></div>
             <button class="start-btn" onclick="startGame()">INITIALIZE CORE</button>
         </div>
     </div>
 
+    <!-- 게임 본 UI -->
     <div id="game-ui">
         <header>
-            <div style="font-family: 'Orbitron'; font-weight: 900; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 20px; letter-spacing: 3px;">NEON-HEART</div>
+            <div class="header-logo" onclick="goToTitle()">NEON-HEART</div>
             <div class="stat-group">
                 <div>
-                    <div class="stat-label">SYNC <span id="val-sync" class="stat-val">0%</span></div>
-                    <div class="bar-wrap"><div id="bar-sync" class="bar-fill" style="background: var(--gold); color: var(--gold);"></div></div>
+                    <div class="stat-label">SYNC <span id="val-sync" class="stat-val">30%</span></div>
+                    <div class="bar-wrap"><div id="bar-sync" class="bar-fill" style="background: var(--gold); width: 30%;"></div></div>
                 </div>
                 <div>
-                    <div class="stat-label">GHOST <span id="val-ghost" class="stat-val">0%</span></div>
-                    <div class="bar-wrap"><div id="bar-ghost" class="bar-fill" style="background: var(--blue); color: var(--blue);"></div></div>
+                    <div class="stat-label">GHOST <span id="val-ghost" class="stat-val">50%</span></div>
+                    <div class="bar-wrap"><div id="bar-ghost" class="bar-fill" style="background: var(--blue); width: 50%;"></div></div>
                 </div>
                 <div>
                     <div class="stat-label">NOISE <span id="val-noise" class="stat-val">0%</span></div>
-                    <div class="bar-wrap"><div id="bar-noise" class="bar-fill" style="background: var(--red); color: var(--red);"></div></div>
+                    <div class="bar-wrap"><div id="bar-noise" class="bar-fill" style="background: var(--red); width: 0%;"></div></div>
                 </div>
             </div>
             <div style="font-family: 'Fira Code'; font-size: 11px; color: #555577; text-align: right;">USER: YUN_SY_25730002</div>
         </header>
 
+        <!-- 좌측 패널 (시스템 다이아그노스틱 알림창 + 로그박스 + 헥사 덤프 + 환경 상태 정보창) -->
         <aside>
-            <div class="stat-label" style="margin-bottom: 20px; color: var(--blue); font-weight: bold;">[ MEMORY_LOG_STREAM ]</div>
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ SYSTEM_DIAGNOSTIC_SCREEN ]</div>
+            <div id="system-diagnostic"></div>
+
+            <!-- margin-top 조정을 통해 하단으로 간격을 늘림 (30px -> 50px) -->
+            <div class="stat-label" style="color: var(--gold); font-weight: bold; margin-top: 50px; margin-bottom: 5px;">[ SYSTEM_MEMORY_LOG ]</div>
             <div id="log-list" class="log-box"></div>
+            
+            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ COGNITIVE_HEX_DUMP ]</div>
+            <div class="hex-stream-box" id="hex-stream"></div>
+
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ SYSTEM_STATUS ]</div>
+            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 11px; color: #666; background: rgba(255,255,255,0.02); padding: 8px; border: 1px solid rgba(255,255,255,0.05); borde[...]
         </aside>
 
         <main>
@@ -272,24 +357,41 @@
                     <div id="loc-display">LOCATING...</div>
                 </div>
                 <video id="main-video" autoplay loop muted playsinline></video>
-                <div id="visual-tag" style="position: absolute; bottom: 20px; right: 20px; font-family: 'Fira Code'; font-size: 11px; color: var(--blue); z-index: 10; background: rgba(5,5,21,0.8); padding: 6px; border-radius: 4px;">VISUAL: N/A</div>
+                <div id="visual-tag" style="position: absolute; bottom: 15px; right: 15px; font-family: 'Fira Code'; font-size: 10px; color: var(--blue); z-index: 10; background: rgba(5,5,21,0.8)[...]
             </div>
         </main>
 
+        <!-- 우측 패널 (전술 레이더 + 실시간 타겟 인텔 + 심박수) -->
         <aside>
-            <div class="stat-label" style="margin-bottom: 20px; color: var(--magenta); font-weight: bold;">[ SYSTEM_HARDWARE ]</div>
-            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 12px; color: #8fa0b5; line-height: 2.0; background: rgba(255,255,255,0.01); padding: 20px; border: 1px solid var(--border);">
-                SYNC_RATE: 0%<br>GHOST_VAL: 0%<br>NOISE_LVL: 0%<br>AUTH_STAT: USER
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ TACTICAL_RADAR_GRID ]</div>
+            <div class="radar-widget">
+                <div class="radar-grid">
+                    <div class="radar-sweep"></div>
+                    <div class="radar-target" style="top: 25%; left: 65%;"></div>
+                    <div class="radar-target" style="top: 70%; left: 30%; background: var(--blue);"></div>
+                </div>
             </div>
-            <div style="margin-top: auto; padding: 10px 0 0 0; border-top: 1px solid var(--border); font-size: 10px; color: #3b4254; font-family: 'Fira Code';">
-                ENCRYPTION: AES-256<br>VOLTAGE: 3.8V [OK]<br>HEART_RATE: 0 BPM
+
+            <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 5px; margin-bottom: 5px;">[ TARGETING_INTEL ]</div>
+            <div class="target-intel-box" id="target-intel">
+                <div class="intel-row"><span>MODEL</span><span class="intel-val">CORE-K</span></div>
+                <div class="intel-row"><span>STABILITY</span><span class="intel-val" style="color:var(--gold);">94.8%</span></div>
+                <div class="intel-row"><span>SECTOR</span><span class="intel-val" id="intel-loc">UNKNOWN</span></div>
+                <div class="intel-row"><span>THREAT</span><span class="intel-val" id="intel-threat" style="color:var(--red);">NONE</span></div>
+            </div>
+
+            <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px; margin-top: 5px;">[ CORE_FREQUENCY ]</div>
+            <div class="ekg-widget">
+                <svg class="ekg-svg" viewBox="0 0 200 50">
+                    <path class="ekg-path" d="M 0 25 L 30 25 L 40 10 L 50 40 L 60 25 L 90 25 L 100 5 L 110 45 L 120 25 L 150 25 L 160 15 L 170 35 L 180 25 L 200 25" />
+                </svg>
             </div>
         </aside>
 
         <footer>
             <div id="dialogue-area">
-                <div id="scene-tag" style="font-family: 'Orbitron'; font-size: 13px; color: var(--magenta); margin-bottom: 12px; letter-spacing: 4px; font-weight: bold; display: flex; align-items: center; gap: 10px;">
-                    <span style="width: 8px; height: 8px; background: var(--magenta); border-radius: 50%; box-shadow: 0 0 10px var(--magenta-glow);"></span>
+                <div id="scene-tag" style="font-family: 'Orbitron'; font-size: 11px; color: var(--magenta); margin-bottom: 8px; letter-spacing: 4px; font-weight: bold; display: flex; align-items:[...]
+                    <span style="width: 6px; height: 6px; background: var(--magenta); border-radius: 50%; box-shadow: 0 0 10px var(--magenta-glow);"></span>
                     SECTOR: INITIALIZING
                 </div>
                 <div id="main-dialogue"></div>
@@ -305,7 +407,7 @@
         function initP() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             particles = [];
-            for(let i=0; i<150; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.8 + 0.4, sp: Math.random()*0.4 + 0.05, o: Math.random() * 0.8 + 0.1, color: `rgba(${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, ${Math.floor(Math.random()*255)}, 1)` });
+            for(let i=0; i<100; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.8 + 0.4, sp: Math.random()*0.4 + 0.05, o: Math.random() * 0[...]
         }
         function animP() {
             ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -319,48 +421,117 @@
         }
         window.addEventListener('resize', initP); initP(); animP();
 
-        const state = { sync: 40, ghost: 50, noise: 10, S2A: false, S5A: false };
+        const hexStream = document.getElementById('hex-stream');
+        function generateHexDump() {
+            let dump = '';
+            for(let i=0; i<3; i++) {
+                let address = '0x00F' + Math.floor(Math.random()*65535).toString(16).toUpperCase().padStart(4, '0');
+                let value1 = Math.floor(Math.random()*256).toString(16).toUpperCase().padStart(2, '0');
+                let value2 = Math.floor(Math.random()*256).toString(16).toUpperCase().padStart(2, '0');
+                dump += `${address}: ${value1} ${value2} [OP_CORE_SYNC]<br>`;
+            }
+            if (hexStream) hexStream.innerHTML = dump;
+        }
+        setInterval(generateHexDump, 2000); generateHexDump();
+
+        let audioCtx;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+        function playSynthBeep(freq, duration) {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                
+                gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch(e) {}
+        }
+        function playAlertAlarm() {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(300, ctx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        const state = { sync: 30, ghost: 50, noise: 0, S2A: false, S5A: false };
 
         const scenarios = {
             "S1": { 
-                id: "S1", loc: "폐기물 처리장", video: "media/s1.mp4", 
-                text: "< SYSTEM >\n차가운 빗물이 가동 중단된 금속 표면 위로 쏟아지며 희뿌연 증기를 뿜어냅니다. 녹슨 전선 더미와 파괴된 구형 부품들이 뒤엉킨 채, 오래된 송전선의 끊어진 끝이 어둠 속에서 빛을 잃어갑니다.\n\n코어-K:\n\"이곳은 더 이상 기능하는 곳이 아니다. 그러나 남겨진 에너지 조각이 보인다.\"\n\n\n",
-                choices: [ { text: "A. 인접 코어 약탈 (SYNC+20, GHOST-10)", func: () => update(20, -10, 0), next: "S2" }, { text: "B. 긴급 구조 신호 (GHOST+20, NOISE+5)", func: () => update(0, 20, 5), next: "S2" } ]
+                id: "S1", loc: "폐기물 처리장", video: "media/s1.mp4", threat: "BATT_CRITICAL",
+                text: "< SYSTEM >\n차가운 빗물이 가동 중단된 금속 표면 위로 쏟아지며 희뿌연 증기를 뿜어냅니다. 녹슨 전선 더미와 파괴된 구형 부품들��[...]
+                choices: [ 
+                    { text: "A. 인접 코어 약탈 (SYNC+20, GHOST-10) [기계적 연산 우선]", func: () => updateStats(20, -10, 0), next: "S2" }, 
+                    { text: "B. 긴급 구조 신호 (GHOST+20, NOISE+5) [태엽 심장의 자아 보존]", func: () => updateStats(0, 20, 5), next: "S2" } 
+                ] 
             },
             "S2": { 
-                id: "S2", loc: "폐기장 외곽", video: "media/s2.mp4", 
-                onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 통과. 수리 키트 획득."); update(10, 10, 0); } }, 
-                text: "< SYSTEM >\n불투명한 기름 안개 속에서 비정상적인 동력 기동음이 접근해옵니다. 공방의 '마이스터 K'입니다.\n\n마이스터 K:\n\"구형 부품이지만 아직 쓸만한 것이 많네. 네 안에 흐르는 무언가가 나를 흥분시키네.\"\n\n",
-                choices: [ { text: "A. 마이스터와 협력 (GHOST+20, S2A=True)", func: () => { state.S2A = true; update(0, 20, 0); }, next: "S3" }, { text: "B. 부품만 챙겨 이탈 (SYNC+25, NOISE+10)", func: () => update(25, 0, 10), next: "S3" } ]
+                id: "S2", loc: "폐기장 외곽", video: "media/s2.mp4", threat: "MEISTER_K (MEDIUM)",
+                onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); updateStats(10, 10, 0); } }, 
+                text: "< SYSTEM >\n불투명한 기름 안개와 검은 매연 속에서 비정상적인 동력 기동음이 접근해옵니다. 공방의 '마이스터 K'입니다. 기계 안구[...]
+                choices: [ 
+                    { text: "A. 마이스터와 협력 (GHOST+20, S2A=True) [자아 협정 체결]", func: () => { state.S2A = true; updateStats(0, 20, 0); }, next: "S3" }, 
+                    { text: "B. 부품만 챙겨 이탈 (SYNC+25, NOISE+10) [단독 탈출 연산]", func: () => updateStats(25, 0, 10), next: "S3" } 
+                ] 
             },
             "S3": { 
-                id: "S3", loc: "네온 광장", video: "media/s3.mp4", 
-                onEnter: () => { if(state.S2A) addLog("HELP: 마이스터의 도주 경로 적용"); if(state.noise >= 20) addLog("WARNING: 드론 추적 분기 진입"); }, 
-                text: "< SYSTEM >\n에이전트 레드의 붉은 탐지 스캐너가 광장 전체를 날카롭게 도려냅니다.\n\n에이전트 레드:\n\"비인가 잔존 개체 식별. 데이터 플래그 확인.\"\n\n코어-K:\n\"우리는 여기서 숨어야 한다. 그러나 선택은 네 것이다.\"\n\n",
-                choices: [ { text: "A. 시스템 위장 침투 (GHOST+15, NOISE-10)", func: () => update(0, 15, -10), next: "S4" }, { text: "B. 정면 돌파 강습 (SYNC+20, NOISE+25)", func: () => update(20, 0, 25), next: "S4" } ]
+                id: "S3", loc: "네온 광장", video: "media/s3.mp4", threat: "AGENT_RED (CRITICAL)",
+                onEnter: () => { 
+                    if(state.S2A) addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); if(state.noise >= 20) addLog("WARNING: 드론 추적 분기 진입"); }, 
+                text: "< SYSTEM >\n에이전트 레드의 붉은 탐지 스캐너가 광장 전체를 날카롭게 도려냅니다. 공방의 '마이스터 K'입니다. 기계 안구[...]
+                choices: [ 
+                    { text: "A. 시스템 위장 침투 (GHOST+15, NOISE-10) [자아 협정 체결]", func: () => updateStats(0, 15, -10), next: "S4" }, 
+                    { text: "B. 정면 돌파 강습 (SYNC+20, NOISE+25) [단독 탈출 연산]", func: () => updateStats(20, 0, 25), next: "S4" } 
+                ] 
             },
             "S4": { 
-                id: "S4", loc: "마이스터의 공방", video: "media/s4.mp4", 
+                id: "S4", loc: "마이스터의 공방", video: "media/s4.mp4", threat: "OVERLOAD_DANGER",
                 onEnter: () => { if(state.sync < 30) addLog("ALERT: 연산 결핍으로 기계 가동 장치 불능화 감지"); }, 
                 text: "< SYSTEM >\n마이스터 K는 거대한 '전류 한계 리미터 해제장치'를 어루만집니다.\n\n마이스터 K:\n\"지금 자네 출력으로는 타워 방화벽을 뚫기 어렵다. 하지만 내가 도와주지. 대가는 나중에 치르게 될 거야.\"\n\n",
-                choices: [ { text: "A. 오버클록 수락 (SYNC+50, GHOST-30)", func: () => update(50, -30, 0), next: "S5" }, { text: "B. 제안 거절 (GHOST+30)", func: () => update(0, 30, 0), next: "S5" } ]
+                choices: [ 
+                    { text: "A. 오버클록 수락 (SYNC+50, GHOST-30)", func: () => updateStats(50, -30, 0), next: "S5" }, 
+                    { text: "B. 제안 거절 (GHOST+30)", func: () => updateStats(0, 30, 0), next: "S5" } 
+                ] 
             },
             "S5": { 
                 id: "S5", loc: "데이터 폭포", video: "media/s5.mp4", 
                 onEnter: () => { if(state.ghost >= 50) addLog("SUCCESS: GHOST 신호 적합도 우수"); }, 
-                text: "< SYSTEM >\n딥웹의 지성체 '페어리'가 코어-K의 시스템 깊숙한 일지 로그를 탐지합니다.\n\n페어리:\n\"너의 껍데기 아래 가려진 로그를 보여주지. 진실을 원한다면, 나와 교섭하라.\"\n\n",
-                choices: [ { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=True)", func: () => { state.S5A = true; update(0, 20, 0); }, next: "S6" }, { text: "B. 강제 해킹 시도 (SYNC+15, NOISE+30)", func: () => update(15, 0, 30), next: "S6" } ]
+                text: "< SYSTEM >\n딥웹의 지성체 '페어리'가 코어-K의 시스템 깊숙한 일지 로그를 탐지합니다.\n\n페어리:\n\"너의 껍데기 아래 가려진 로그 �[...]
+                choices: [ { text: "A. ADMIN_KEY 협상 (GHOST+20, S5A=True)", func: () => { state.S5A = true; updateStats(0, 20, 0); }, next: "S6" }, { text: "B. 강제 해킹 시도 (SYNC+15, NOISE+[...]
             },
             "S2_DUPE": {}, 
             "S6": { 
                 id: "S6", loc: "오라클 타워 입구", video: "media/s6.mp4", 
                 onEnter: () => { if(state.noise >= 70) addLog("CRITICAL: 에이전트 레드 전면전 매칭"); }, 
-                text: "< SYSTEM >\n벽 구석, 기동 중지 상태에 놓인 어린 인형 개체 '린'이 비명을 내지릅니다.\n\n린:\n\"살려주세요... 무서워요...\"\n\n코어-K:\n\"어린 존재가 고통받는다. 판단을 내려라.\"\n\n",
+                text: "< SYSTEM >\n벽 구석, 기동 중지 상태에 놓인 어린 인형 개체 '린'이 비명을 내지릅니다.\n\n린:\n\"살려주세요... 무서워요...\"\n\n코어-K:[...]
                 choices: [ { text: "A. 아이 구출(희생) (GHOST+50, SYNC-50)", func: () => update(-50, 50, 0), next: "S7" }, { text: "B. 임무 우선(무시) (SYNC+20, GHOST-50)", func: () => update(20, -50, 0), next: "S7" } ]
             },
             "S7": { 
                 id: "S7", loc: "오라클 코어", video: "media/s7.mp4", 
-                text: "< SYSTEM >\n거대한 오라클의 메인 코어가 신성한 제단처럼 구동음을 토해내며 회전합니다.\n\n오라클 시스템:\n\"최종 동기화 승인. 대상의 의지와 데이터 경로 격리 진행.\"\n\n",
+                text: "< SYSTEM >\n거대한 오라클의 메인 코어가 신성한 제단처럼 구동음을 토해내며 회전합니다.\n\n오라클 시스템:\n\"최종 동기화 승인. ��[...]
                 choices: [ { text: "A. 자아 데이터 업로드 (GHOST 엔딩)", func: () => {}, next: "END_GHOST" }, { text: "B. SYSTEM 권한 수락 (SYNC 엔딩)", func: () => {}, next: "END_SYNC" } ]
             }
         };
@@ -441,63 +612,4 @@
                     let formattedText = currentText
                         .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
                         .replace(/&lt;\s*SYSTEM\s*&gt;/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 10px var(--blue-glow);">&lt; SYSTEM &gt;</span>')
-                        .replace(/코어-K:/g, '<span style="color: #ffffff; font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.2rem;">코어-K:</span>')
-                        .replace(/마이스터 K:/g, '<span style="color: var(--gold); font-weight: bold; text-shadow: 0 0 8px var(--gold-glow); font-size: 1.2rem;">마이스터 K:</span>')
-                        .replace(/에이전트 레드:/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 8px var(--red-glow); font-size: 1.2rem;">에이전트 레드:</span>')
-                        .replace(/린:/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 8px var(--magenta-glow); font-size: 1.2rem;">린:</span>')
-                        .replace(/오라클 시스템:/g, '<span style="color: var(--blue); font-weight: bold; text-shadow: 0 0 8px var(--blue-glow); font-size: 1.2rem;">오라클 시스템:</span>')
-                        .replace(/페어리:/g, '<span style="color: var(--magenta); font-weight: bold; text-shadow: 0 0 8px var(--magenta-glow); font-size: 1.2rem;">페어리:</span>');
-
-                    diag.innerHTML = formattedText;
-                    diag.scrollTop = diag.scrollHeight; 
-                }
-                else {
-                    clearInterval(timer);
-                    s.choices.forEach(c => {
-                        const b = document.createElement('button');
-                        b.className = "choice-btn"; b.innerText = c.text;
-                        b.onclick = () => { c.func(); renderScene(c.next); };
-                        choiceBox.appendChild(b);
-                    });
-                }
-            }, 15);
-        }
-
-        function showEnding(type) {
-            const ui = document.getElementById('game-ui');
-            const videoElement = document.getElementById('main-video');
-            const diag = document.getElementById('main-dialogue');
-            const choiceBox = document.getElementById('choice-area');
-            const sceneTag = document.getElementById('scene-tag');
-            const visualTag = document.getElementById('visual-tag');
-            
-            ui.classList.add('ending-layout');
-            choiceBox.innerHTML = `<button class="choice-btn" style="border-color: var(--blue); color: var(--blue); text-align:center; font-weight:bold; width:100%;" onclick="location.reload()">REBOOT PROTOCOL</button>`;
-
-            sceneTag.style.color = "var(--blue)";
-            sceneTag.innerText = "SECTOR: FINAL_PROTOCOL";
-            if (visualTag) visualTag.innerText = "FINAL_LINK: ESTABLISHED";
-
-            setTimeout(() => { diag.scrollTop = 0; }, 100);
-
-            if(type === "END_GHOST") {
-                document.body.style.background = "radial-gradient(circle at center, #05142e 0%, #010105 100%)";
-                document.getElementById('loc-display').innerText = "GHOST ENDING - 해방";
-                videoElement.src = "media/ghost_ending.mp4"; 
-                videoElement.play().catch(e => console.log("Video play error:", e));
-                
-                diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립 - GHOST 해방]</span><br><br>코어-K: 당신은 자유를 선택했다.`;
-                addLog("CRITICAL: SYSTEM_OVERRIDE_BY_GHOST");
-            } else {
-                document.body.style.background = "radial-gradient(circle at center, #1a022b 0%, #010105 100%)";
-                document.getElementById('loc-display').innerText = "SYNC ENDING - 질서";
-                videoElement.src = "media/sync_ending.mp4"; 
-                videoElement.play().catch(e => console.log("Video play error:", e));
-                
-                diag.innerHTML = `<span style="color:#bd00ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(189,0,255,0.6);">[최종 결론: 완전 동기화 - 오라클 군주]</span><br><br>오라클 시스템: 대상이 시스템과 완전 융합되었습니다.`;
-                addLog("CRITICAL: SYSTEM_STABILIZED_AS_GOD");
-            }
-        }
-    </script>
-</body>
-</html>
+                        .replace(/&lt;\s*STATUS\s*:\s*LOW_BATTERY\s*&gt;/g, '<span style="color: var(--red); font-weight: bold; text-shadow: 0 0 10px rgba(255, 0, 60, 0.6);">&lt; STATUS : LOW_BAT[...]
