@@ -167,7 +167,7 @@
             background: rgba(0, 0, 0, 0.7); border-radius: 4px;
             font-family: 'Fira Code', monospace; font-size: 12.5px; color: #e2e8f0;
             padding: 10px; overflow-y: auto; line-height: 1.55;
-            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1), 0 0 10px rgba(0, 229, 255, 0.05);
+            box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.1), 0 0 10px rgba(0,229,255,0.05);
         }
 
         .hex-stream-box {
@@ -359,7 +359,7 @@
             <div class="hex-stream-box" id="hex-stream"></div>
 
             <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ SYSTEM_STATUS ]</div>
-            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 11px; color: #666; background: rgba(255,255,255,0.02); padding: 8px; border: 1px solid rgba(255,255,255,0.05); border-rad[...]
+            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 11px; color: #666; background: rgba(255,255,255,0.02); padding: 8px; border: 1px solid rgba(255,255,255,0.05); borde[...]
         </aside>
 
         <main>
@@ -570,6 +570,22 @@
                 const mainVideo = document.getElementById('main-video');
                 if (titleVideo) { titleVideo.muted = false; titleVideo.classList.add('audio-only'); titleVideo.play().catch(()=>{}); }
                 if (mainVideo)  { mainVideo.muted = false;  mainVideo.classList.add('audio-only'); }
+
+                // Fallback: create an Audio() and play its audio track (helps with autoplay policies)
+                try {
+                    if (!window._fallbackAudio) {
+                        const fa = new Audio('media/title.mp4');
+                        fa.loop = true;
+                        fa.volume = 1.0;
+                        fa.play().catch(e => console.error('fallback audio play error', e));
+                        window._fallbackAudio = fa;
+                    } else {
+                        window._fallbackAudio.src = 'media/title.mp4';
+                        window._fallbackAudio.loop = true;
+                        window._fallbackAudio.play().catch(e => console.error('fallback audio play error', e));
+                    }
+                } catch(e) { console.log('create fallback audio failed', e); }
+
             } catch(e) { console.log('audio unmute error', e); }
 
             document.getElementById('title-screen').style.opacity = '0';
@@ -709,6 +725,20 @@
                     videoElement.play().catch(err => {
                         console.log("동영상 자동재생 활성화:", err);
                     });
+
+                    // keep fallback audio in sync: switch source to the scene mp4
+                    try {
+                        if (window._fallbackAudio) {
+                            window._fallbackAudio.src = s.video;
+                            window._fallbackAudio.loop = true;
+                            window._fallbackAudio.play().catch(e=>console.error('fallback audio play error', e));
+                        } else {
+                            const fa = new Audio(s.video);
+                            fa.loop = true; fa.volume = 1.0;
+                            fa.play().catch(e=>console.error('fallback audio play error', e));
+                            window._fallbackAudio = fa;
+                        }
+                    } catch(e) { console.log('fallback audio switch error', e); }
                 }
             }, 300);
 
@@ -776,6 +806,8 @@
                 videoElement.style.opacity = '1';
                 try { videoElement.muted = false; } catch(e) {}
                 videoElement.play().catch(err => console.log(err));
+                // fallback audio switch
+                try { if (window._fallbackAudio) { window._fallbackAudio.src = 'media/ghost_ending.mp4'; window._fallbackAudio.loop = true; window._fallbackAudio.play().catch(()=>{}); } } catch(e){}
                 diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 인간성 확립]</span><br><br>오라클[...]`;
                 addLog("CRITICAL: SYSTEM_OVERRIDE_BY_GHOST_BLUE");
             } else {
@@ -785,6 +817,7 @@
                 videoElement.style.opacity = '1';
                 try { videoElement.muted = false; } catch(e) {}
                 videoElement.play().catch(err => console.log(err));
+                try { if (window._fallbackAudio) { window._fallbackAudio.src = 'media/sync_ending.mp4'; window._fallbackAudio.loop = true; window._fallbackAudio.play().catch(()=>{}); } } catch(e){}
                 diag.innerHTML = `<span style="color:#00e5ff; font-size: 1.4rem; font-weight: 900; text-shadow: 0 0 15px rgba(0,229,255,0.6);">[최종 결론: 완전 동기화]</span><br><br>불완전[...]`;
                 addLog("CRITICAL: SYSTEM_STABILIZED_AS_GOD_BLUE");
             }
@@ -802,6 +835,8 @@
             try {
                 if (titleVideo) { titleVideo.classList.remove('audio-only'); titleVideo.muted = true; }
                 if (mainVideo)  { mainVideo.classList.remove('audio-only'); mainVideo.muted = true; mainVideo.pause(); mainVideo.src = ""; mainVideo.style.opacity = '0'; }
+                // pause fallback audio
+                if (window._fallbackAudio) { try { window._fallbackAudio.pause(); } catch(e){} }
             } catch(e) { console.log('restore visual error', e); }
 
             const dashboard = document.getElementById('bottom-dashboard');
