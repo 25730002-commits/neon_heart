@@ -439,6 +439,7 @@
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
+            // suspended 일 경우 활성화 전환 유도
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
@@ -487,6 +488,29 @@
                 osc.stop(ctx.currentTime + 0.3);
             } catch(e) {
                 console.warn("알람 사운드 재생 실패:", e);
+            }
+        }
+
+        // --- [추가] 성우 대사 오디오(Voice) 컨트롤러 및 다중 채널 재생 정의 ---
+        const voicePlayer = new Audio();
+        voicePlayer.loop = false; // 대사 파일 반복 금지
+
+        function playVoice(src) {
+            try {
+                if (!src) {
+                    voicePlayer.pause();
+                    return;
+                }
+                voicePlayer.src = src;
+                voicePlayer.muted = false;
+                const playPromise = voicePlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(err => {
+                        console.log("대사 자동 재생 수동 활성화 대기:", err);
+                    });
+                }
+            } catch (e) {
+                console.warn("대사 재생 오류:", e);
             }
         }
 
@@ -580,6 +604,9 @@
             if (mainVideo) {
                 mainVideo.muted = false;
             }
+
+            // S1 대사 오디오 즉시 재생
+            playVoice('mp3/s1.mp3');
 
             document.getElementById('title-screen').style.opacity = '0';
             setTimeout(() => {
@@ -720,6 +747,15 @@
             const videoElement = document.getElementById('main-video');
             videoElement.style.opacity = '0';
 
+            // 장면 진입 시 대사 오디오 연동(비디오 배경음과 겹쳐서 출력)
+            if (key === "S1") {
+                playVoice('mp3/s1.mp3');
+            } else if (key === "S2") {
+                playVoice('mp3/s2.mp3');
+            } else {
+                playVoice(null); // S3부터는 대사 사운드를 끕니다.
+            }
+
             // 브라우저의 사용자 행동 전파(User Gesture Chain)를 보존하기 위해 setTimeout을 완전히 제거하고 동기 재생합니다.
             if(s.video) { 
                 videoElement.src = s.video; 
@@ -832,6 +868,9 @@
             state.sync = 30; state.ghost = 50; state.noise = 0; state.S2A = false; state.S5A = false;
             updateStats(0, 0, 0);
 
+            // 타이틀 회귀 시 title.mp3 연주 가동
+            playVoice('mp3/title.mp3');
+
             const titleScreen = document.getElementById('title-screen');
             titleScreen.style.display = 'flex';
             setTimeout(() => {
@@ -841,6 +880,20 @@
                 titleVideo.play().catch(e => console.log("자동재생 제한:", e));
             }, 50);
         }
+
+        // 페이지 첫 로드 시 브라우저 오디오 보안을 우회해 title.mp3 재생 대기
+        window.addEventListener('load', () => {
+            playVoice('mp3/title.mp3');
+            
+            const handleFirstInteraction = () => {
+                getAudioContext();
+                if (voicePlayer.paused && voicePlayer.src.includes('title.mp3')) {
+                    voicePlayer.play().catch(e => console.log(e));
+                }
+                document.removeEventListener('click', handleFirstInteraction);
+            };
+            document.addEventListener('click', handleFirstInteraction);
+        });
     </script>
 </body>
 </html>
