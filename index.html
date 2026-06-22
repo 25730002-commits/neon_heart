@@ -188,7 +188,7 @@
         #loc-container { position: absolute; top: 15px; left: 15px; z-index: 10; }
         #loc-display { font-family: 'Orbitron'; font-size: 12px; color: var(--blue); letter-spacing: 4px; text-shadow: 0 0 10px #000; font-weight: bold; }
 
-        /* 비디오 파일 가변 조절 */
+        /* 비디오 파일 가변 조절 (음소거 제거) */
         #main-video { width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.8s ease; }
 
         /* 우측 HUD 스탯 위젯 */
@@ -354,7 +354,7 @@
                 <div id="loc-container">
                     <div id="loc-display">LOCATING...</div>
                 </div>
-                <video id="main-video" autoplay loop muted playsinline></video>
+                <video id="main-video" autoplay loop playsinline></video>
                 <div id="visual-tag" style="position: absolute; bottom: 15px; right: 15px; font-family: 'Fira Code'; font-size: 10px; color: var(--blue); z-index: 10; background: rgba(5,5,21,0.8); padding: 3px 8px; border: 1px solid var(--blue); border-radius: 2px;">VISUAL_LINK: ACTIVE</div>
             </div>
         </main>
@@ -439,7 +439,6 @@
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
-            // suspended 일 경우 활성화 전환 유도
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
@@ -505,7 +504,7 @@
             "S2": { 
                 id: "S2", loc: "폐기장 외곽", video: "media/s2.mp4", threat: "MEISTER_K (MEDIUM)",
                 onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); updateStats(10, 10, 0); } }, 
-                text: "< SYSTEM >\n불투명한 기름 안개와 검은 매연 속에서 비정상적인 동력 기동음이 접근해옵니다. 공방의 '마이스터 K'입니다. 기계 안구가 당신을 조사합니다.\n\n마이스터 K:\n흠... 또 다른 고아 기계네요. 저는 도움을 줄 수 있어요.",
+                text: "< SYSTEM >\n불투명한 기름 안개와 검은 매연 속에서 비정상적인 동력 기동음이 접근해옵니다. 공방의 '마이스터 K'입니다. 기계 안구가 당신을 조사합니다.\n\n마이스터 K:\n\"구형 태엽 파츠들이 무모하게 스프링 장력을 연소시키며 발악하는군.\n 길 잃은 태엽 인형아... 자네는 그 고통스러운 '자아 데이터'를 영원히 지키려는 건가,\n 아니면 편안하게 기계의 영원한 무(無)로 동기화되고 싶은 건가?\"",
                 choices: [ 
                     { text: "A. 마이스터와 협력 (GHOST+20, S2A=True) [자아 협정 체결]", func: () => { state.S2A = true; updateStats(0, 20, 0); }, next: "S3" }, 
                     { text: "B. 부품만 챙겨 이탈 (SYNC+25, NOISE+10) [단독 탈출 연산]", func: () => updateStats(25, 0, 10), next: "S3" } 
@@ -720,17 +719,27 @@
             
             const videoElement = document.getElementById('main-video');
             videoElement.style.opacity = '0';
-            setTimeout(() => {
-                if(s.video) { 
-                    videoElement.src = s.video; 
-                    videoElement.load();
-                    videoElement.muted = false; // 장면 전환 재생 시 음소거 풀기
-                    videoElement.style.opacity = '1'; 
-                    videoElement.play().catch(err => {
-                        console.log("동영상 자동재생 한계 감지:", err);
+
+            // 브라우저의 사용자 행동 전파(User Gesture Chain)를 보존하기 위해 setTimeout을 완전히 제거하고 동기 재생합니다.
+            if(s.video) { 
+                videoElement.src = s.video; 
+                videoElement.muted = false; // 음소거 즉시 해제
+                videoElement.load();
+                
+                // 재생 약속(Promise) 실행 및 정책 우회 예외 처리
+                const playPromise = videoElement.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // 재생 성공 시 투명도 1로 서서히 노출
+                        videoElement.style.opacity = '1';
+                    }).catch(err => {
+                        console.log("자동재생 음향 정책 제한 감지 - 무음 우회 기동:", err);
+                        videoElement.muted = true; // 실패 시 무음으로라도 안정적 강제 재생
+                        videoElement.play();
+                        videoElement.style.opacity = '1';
                     });
                 }
-            }, 300);
+            }
 
             document.getElementById('intel-loc').innerText = s.loc;
             document.getElementById('intel-threat').innerText = s.threat || "NONE";
