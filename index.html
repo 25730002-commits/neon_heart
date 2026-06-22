@@ -274,6 +274,7 @@
         @keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes target-pulse { from { opacity: 0.3; } to { opacity: 1; } }
         @keyframes ekg-draw { to { stroke-dashoffset: 0; } }
+        @keyframes flow { from { transform: translateY(0); } to { transform: translateY(150px); } }
         
         /* 엔딩 활성화 시 비주얼 프레임 가시성 보정 */
         .ending-active #visual-frame {
@@ -316,7 +317,7 @@
     <!-- 게임 본 UI -->
     <div id="game-ui">
         <header>
-            <div class="header-logo" style="font-family:'Orbitron'; font-weight:900; color:var(--blue); cursor:pointer;" onclick="goToTitle()">NEON-HEART</div>
+            <div class="header-logo" onclick="goToTitle()">NEON-HEART</div>
             <div class="stat-group">
                 <div>
                     <div class="stat-label">SYNC <span id="val-sync" class="stat-val">30%</span></div>
@@ -334,19 +335,20 @@
             <div style="font-family: 'Fira Code'; font-size: 11px; color: #555577; text-align: right;">USER: YUN_SY_25730002</div>
         </header>
 
-        <!-- 좌측 패널 -->
+        <!-- 좌측 패널 (시스템 다이아그노스틱 알림창 + 로그박스 + 헥사 덤프 + 환경 상태 정보창) -->
         <aside>
             <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ SYSTEM_DIAGNOSTIC_SCREEN ]</div>
             <div id="system-diagnostic"></div>
 
-            <div class="stat-label" style="color: var(--gold); font-weight: bold; margin-top: 30px; margin-bottom: 5px;">[ SYSTEM_MEMORY_LOG ]</div>
+            <!-- margin-top 조정을 통해 하단으로 간격을 늘림 (30px -> 50px) -->
+            <div class="stat-label" style="color: var(--gold); font-weight: bold; margin-top: 50px; margin-bottom: 5px;">[ SYSTEM_MEMORY_LOG ]</div>
             <div id="log-list" class="log-box"></div>
             
             <div class="stat-label" style="color: var(--magenta); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ COGNITIVE_HEX_DUMP ]</div>
             <div class="hex-stream-box" id="hex-stream"></div>
 
             <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-top: 10px; margin-bottom: 5px;">[ SYSTEM_STATUS ]</div>
-            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 11px; color: #aaa; background: rgba(255,255,255,0.02); padding: 8px; border: 1px solid rgba(255,255,255,0.05); border-radius: 4px;"></div>
+            <div id="status-panel" style="font-family: 'Fira Code'; font-size: 11px; color: #666; background: rgba(255,255,255,0.02); padding: 8px; border: 1px solid rgba(255,255,255,0.05); border-radius: 4px;"></div>
         </aside>
 
         <main>
@@ -359,7 +361,7 @@
             </div>
         </main>
 
-        <!-- 우측 패널 -->
+        <!-- 우측 패널 (전술 레이더 + 실시간 타겟 인텔 + 심박수) -->
         <aside>
             <div class="stat-label" style="color: var(--blue); font-weight: bold; margin-bottom: 5px;">[ TACTICAL_RADAR_GRID ]</div>
             <div class="radar-widget">
@@ -432,25 +434,16 @@
         }
         setInterval(generateHexDump, 2000); generateHexDump();
 
-        // --- [핵심 개선] 오디오 수집 엔진 및 브라우저 상호작용 매핑 ---
-        let audioCtx = null;
-        
+        let audioCtx;
         function getAudioContext() {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
-            // suspended 일 경우 활성화 전환 유도
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
             return audioCtx;
         }
-
         function playSynthBeep(freq, duration) {
             try {
                 const ctx = getAudioContext();
-                if (!ctx) return;
-                
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 
@@ -465,16 +458,11 @@
                 
                 osc.start();
                 osc.stop(ctx.currentTime + duration);
-            } catch(e) {
-                console.warn("오디오 재생 실패:", e);
-            }
+            } catch(e) {}
         }
-
         function playAlertAlarm() {
             try {
                 const ctx = getAudioContext();
-                if (!ctx) return;
-                
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'sawtooth';
@@ -486,9 +474,7 @@
                 gain.connect(ctx.destination);
                 osc.start();
                 osc.stop(ctx.currentTime + 0.3);
-            } catch(e) {
-                console.warn("알람 사운드 재생 실패:", e);
-            }
+            } catch(e) {}
         }
 
         const state = { sync: 30, ghost: 50, noise: 0, S2A: false, S5A: false };
@@ -504,7 +490,7 @@
             },
             "S2": { 
                 id: "S2", loc: "폐기장 외곽", video: "media/s2.mp4", threat: "MEISTER_K (MEDIUM)",
-                onEnter: () => { if(state.sync >= 40 || state.ghost >= 60) { addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); updateStats(10, 10, 0); } }, 
+                onEnter: () => { if(state.sync >= 20 || state.ghost >= 20) { addLog("EVENT: 시스템 적합성 판정 통과. 예비용 수리 키트 획득."); updateStats(10, 10, 0); } }, 
                 text: "< SYSTEM >\n불투명한 기름 안개와 검은 매연 속에서 비정상적인 동력 기동음이 접근해옵니다. 공방의 '마이스터 K'입니다. 기계 안구가 불빛을 튕겨내며 코어-K의 태엽부를 날카롭게 주시합니다.\n\n마이스터 K:\n\"구형 태엽 파츠들이 무모하게 스프링 장력을 연소시키며 발악하는군.\n 길 잃은 태엽 인형아... 자네는 그 고통스러운 '자아 데이터'를 영원히 지키려는 건가,\n 아니면 편안하게 기계의 영원한 무(無)로 동기화되고 싶은 건가?\"", 
                 choices: [ 
                     { text: "A. 마이스터와 협력 (GHOST+20, S2A=True) [자아 협정 체결]", func: () => { state.S2A = true; updateStats(0, 20, 0); }, next: "S3" }, 
@@ -562,10 +548,7 @@
         };
 
         function startGame() {
-            // 사용자 첫 터치 시점에 AudioContext 강제 활성화 (브라우저 차단 우회)
-            const ctx = getAudioContext();
-            
-            // 전원 공급 멜로디 연주
+            getAudioContext();
             playSynthBeep(660, 0.15);
             setTimeout(() => playSynthBeep(880, 0.2), 150);
 
@@ -702,7 +685,7 @@
                     videoElement.load();
                     videoElement.style.opacity = '1'; 
                     videoElement.play().catch(err => {
-                        console.log("동영상 자동재생 한계 감지:", err);
+                        console.log("동영상 자동재생 활성화:", err);
                     });
                 }
             }, 300);
@@ -720,12 +703,12 @@
             diagTarget.innerHTML = "";
             choiceBox.innerHTML = "";
 
-            // 텍스트를 시스템 메시지와 대사로 분리
+            // 텍스트를 시스템 메시지와 대사로 온전히 분리
             const split = splitText(s.text);
             const formattedSys = formatCyberText(split.system);
             const formattedDiag = formatCyberText(split.dialogue);
 
-            // 타자기 가동
+            // 좌측과 하단에 각각 전송하여 이중 타자기 가동
             typeHTML(formattedSys, sysTarget, 8);
             typeHTML(formattedDiag, diagTarget, 15, () => {
                 s.choices.forEach((c, idx) => {
@@ -733,7 +716,7 @@
                     b.className = idx === 0 ? "choice-btn choice-btn-a" : "choice-btn choice-btn-b";
                     b.innerText = c.text;
                     b.onclick = () => {
-                        playSynthBeep(520, 0.08); // 클릭 사운드 피드백
+                        playSynthBeep(520, 0.08);
                         c.func();
                         renderScene(c.next);
                     };
@@ -756,7 +739,6 @@
             sceneTag.style.color = "var(--blue)";
             sceneTag.innerText = "SECTOR: FINAL_PROTOCOL";
 
-            // 최종 엔딩 도달 아르페지오 사운드 연주
             playSynthBeep(440, 0.3);
             setTimeout(() => playSynthBeep(554, 0.3), 200);
             setTimeout(() => playSynthBeep(659, 0.5), 400);
@@ -788,22 +770,19 @@
             const ui = document.getElementById('game-ui');
             ui.style.opacity = '0';
             ui.style.visibility = 'hidden';
-            ui.classList.remove('ending-active');
+            ui.classList.remove('ending-layout');
 
             const dashboard = document.getElementById('bottom-dashboard');
-            if (dashboard) dashboard.classList.remove('ending-dialogue-mode');
-            
-            const logList = document.getElementById('log-list');
-            if (logList) {
-                logList.style.display = "block";
-                logList.innerHTML = "";
-            }
+            dashboard.classList.remove('ending-dialogue-mode');
+            document.getElementById('log-list').style.display = "block";
 
             const mainVideo = document.getElementById('main-video');
             mainVideo.pause(); mainVideo.src = ""; mainVideo.style.opacity = '0';
 
-            state.sync = 30; state.ghost = 50; state.noise = 0; state.S2A = false; state.S5A = false;
+            state.sync = 40; state.ghost = 50; state.noise = 10; state.S2A = false; state.S5A = false;
             updateStats(0, 0, 0);
+
+            document.getElementById('log-list').innerHTML = "";
 
             const titleScreen = document.getElementById('title-screen');
             titleScreen.style.display = 'flex';
